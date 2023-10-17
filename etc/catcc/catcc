@@ -118,6 +118,27 @@ build_executable() {
 
 ## #################################################################### ##
 
+# Function to display usage information
+display_usage() {
+    echo "Usage: $0 [-c] file"
+    echo "Options:"
+    echo "  -c "
+}
+
+make_obj=false
+while getopts ":c" opt; do
+    case $opt in
+        c)
+            make_obj=true
+            ;;
+        \?)
+            echo "Invalid option: -$OPTARG"
+            display_usage
+            exit 1
+            ;;
+    esac
+done
+shift $((OPTIND - 1))
 
 CAT_COMPILER_INCLUDE="-lm -fopenmp \
             -I$CAT_INST_DIR/$CAT_PROJECT_NAME/$CAT_INCLUDE "
@@ -133,7 +154,8 @@ SOURCE=$1
 SOURCE_RPTH=$(get_relative_path "$SOURCE" "$CAT_INST_DIR/$CAT_PROJECT_NAME")
 SOURCE_LPTH=$(get_first_directory "$SOURCE_RPTH")
 
-if [[ "$SOURCE_LPTH" == "$CAT_SRC" ]]; then
+#if [[ "$SOURCE_LPTH" == "$CAT_SRC" ]]; then
+if [[ "$make_obj" == true ]]; then
     check_extension "$SOURCE" "c"
     CHECK="$?"
     if [ $CHECK -eq 0 ]; then
@@ -141,9 +163,9 @@ if [[ "$SOURCE_LPTH" == "$CAT_SRC" ]]; then
         mkdir -p  "$CAT_INST_DIR/$CAT_PROJECT_NAME/$CAT_BUILD/$BUILD_PATH"
         build_binary "$SOURCE" "$CAT_INST_DIR/$CAT_PROJECT_NAME/$CAT_BUILD/$BUILD_PATH"
     else
-        throw_error "catcc: error: Extension not recognised for build files."
+        throw_error "$0: error: Extension not recognised for build files."
     fi
-elif [[ "$SOURCE_LPTH" == "$CAT_TEST" ]];then
+else
     check_extension "$SOURCE" "c"
     CHECK="$?"
     if [ $CHECK -eq 0 ]; then
@@ -159,10 +181,8 @@ elif [[ "$SOURCE_LPTH" == "$CAT_TEST" ]];then
 
         rm -r "$CAT_INST_DIR/$CAT_PROJECT_NAME/$CAT_BUILD/$TEMP_PATH"
     else
-        throw_error "catcc: error: Extension not recognised for bin files."
+        throw_error "$0: error: Extension not recognised for bin files."
     fi
-else
-    throw_error "catcc : error: File not in known build or bin paths."
 fi
 
 
