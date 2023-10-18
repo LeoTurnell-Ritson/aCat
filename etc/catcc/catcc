@@ -174,9 +174,9 @@ else
         mkdir -p  "$CAT_INST_DIR/$CAT_PROJECT_NAME/$CAT_BUILD/$TEMP_PATH"
         build_binary "$SOURCE" "$CAT_INST_DIR/$CAT_PROJECT_NAME/$CAT_BUILD/$TEMP_PATH"
 
-        mkdir -p  "$CAT_INST_DIR/$CAT_PROJECT_NAME/$CAT_BIN/$CAT_TEST"
+        mkdir -p  "$CAT_INST_DIR/$CAT_PROJECT_NAME/$CAT_BIN"
         build_executable "$SOURCE" \
-                         "$CAT_INST_DIR/$CAT_PROJECT_NAME/$CAT_BIN/$CAT_TEST" \
+                         "$CAT_INST_DIR/$CAT_PROJECT_NAME/$CAT_BIN/"  \
                          "$CAT_INST_DIR/$CAT_PROJECT_NAME/$CAT_BUILD/"
 
         rm -r "$CAT_INST_DIR/$CAT_PROJECT_NAME/$CAT_BUILD/$TEMP_PATH"
