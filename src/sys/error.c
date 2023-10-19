@@ -41,23 +41,24 @@ int       CatSize;
 
 static void private_ErrorDump(const CatErrorCode err, FILE *out)
 {
-    const char * msg = "CAT FATAL ERROR: error code ";
+    const char * msg = "CAT FATAL ERROR: errorcode";
 
-    fprintf(out, "[%d]%s(%d)\n", CatRank, msg, err);
+    fprintf(out, "[%d]%s (%d)\n", CatRank, msg, err);
 }
 
 static void private_StackDump(const CatStack stack, FILE *out)
 {
     int i;
-    const char * msg = "CAT STACK DUMP: ";
+    const char * msg = "CAT STACK DUMP:";
 
-    fprintf(out, "[%d]%s\n", CatRank, msg);
+    fprintf(out, "[%d]%s ", CatRank, msg);
     for (i=0; i < stack.currsize; i++)
     {
-        fprintf(out, "[%d]%s:", CatRank, stack.file[i]);
+        fprintf(out, "%s:", stack.file[i]);
         fprintf(out, "%s:", stack.function[i]);
-        fprintf(out, "%d\n", stack.line[i]);
+        fprintf(out, "%d\t", stack.line[i]);
     }
+    fprintf(out, "\n");
 }
 
 
@@ -65,11 +66,11 @@ static void private_StackDump(const CatStack stack, FILE *out)
 /* ********************** functions definitions *********************** */
 /* ******************************************************************** */
 
-CatErrorCode CatError(const CatStack stack, const CatErrorCode err)
+void CatError(const CatStack stack, const CatErrorCode err)
 {
     private_ErrorDump(err, stderr);
     private_StackDump(stack, stderr);
-    return CAT_SUCCESS;
+    MPI_Abort(MPI_COMM_WORLD, err);
 }
 
 

@@ -117,7 +117,7 @@ extern int       CatSize;
 /* *********************** public functions *************************** */
 /* ******************************************************************** */
 
-extern CatErrorCode CatError(const CatStack, const CatErrorCode);
+extern void CatError(const CatStack, const CatErrorCode);
 
 
 #endif
