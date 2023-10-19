@@ -16,6 +16,7 @@
 ** You should have received a copy of the GNU General Public License
 ** along with this program; if not, write to the Free Software
 ** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA.
+**
 ** ******************************************************************** */
 
 
@@ -25,12 +26,13 @@
 
 #include "caterror.h"
 
-
 /* ******************************************************************** */
 /* ************************ global variables ************************** */
 /* ******************************************************************** */
 
 CatStack  __CATSTACK__;
+int       CatRank;
+int       CatSize;
 
 
 /* ******************************************************************** */
@@ -39,16 +41,20 @@ CatStack  __CATSTACK__;
 
 static void private_ErrorDump(const CatErrorCode err, FILE *out)
 {
-    fprintf(out, "%d\n", err);
+    const char * msg = "CAT FATAL ERROR: error code ";
+
+    fprintf(out, "[%d]%s(%d)\n", CatRank, msg, err);
 }
 
 static void private_StackDump(const CatStack stack, FILE *out)
 {
     int i;
+    const char * msg = "CAT STACK DUMP: ";
 
+    fprintf(out, "[%d]%s\n", CatRank, msg);
     for (i=0; i < stack.currsize; i++)
     {
-        fprintf(out, "%s:", stack.file[i]);
+        fprintf(out, "[%d]%s:", CatRank, stack.file[i]);
         fprintf(out, "%s:", stack.function[i]);
         fprintf(out, "%d\n", stack.line[i]);
     }
