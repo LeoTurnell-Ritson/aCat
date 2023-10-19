@@ -1,6 +1,6 @@
 /* ***************************** aCat ******************************** **
 **
-** @file
+** @file catmacro
 ** @description
 **
 ** @author Copyright (C) 2023  Leo Turnell-Ritson
