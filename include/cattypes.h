@@ -22,25 +22,23 @@
 **
 ** ******************************************************************** */
 
-#include "catcommon.h"
-
-BEGIN_C_DECLS
 
 #ifndef CATTYPES_H
 #define CATTYPES_H
+
 
 /* ******************************************************************** */
 /* **************************** constants ***************************** */
 /* ******************************************************************** */
 
 typedef enum CatErrorCode {
-  CAT_SUCCESS = 0,
-  CAT_FAILURE = 1              /* Do not use. */
+    CAT_SUCCESS = 0,
+    CAT_FAILURE = 1              /* Do not use. */
 } CatErrorCode;
 
 typedef enum CatBool {
-  CAT_FALSE = 0,
-  CAT_TRUE = 1
+    CAT_FALSE = 0,
+    CAT_TRUE = 1
 } CatBool;
 
 typedef short int CatFlag;
@@ -49,6 +47,5 @@ typedef double    CatScalar;
 
 #endif
 
-END_C_DECLS
 
 /* ******************************************************************** */
