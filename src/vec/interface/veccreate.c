@@ -1,8 +1,5 @@
 /* ***************************** aCat ******************************** **
 **
-** @file cattypes
-** @description
-**
 ** @author Copyright (C) 2023  Leo Turnell-Ritson
 ** @version 0.1
 **
@@ -23,36 +20,27 @@
 ** ******************************************************************** */
 
 
-#ifndef CATTYPES_H
-#define CATTYPES_H
+/* ******************************************************************** */
+/* ************************** include files *************************** */
+/* ******************************************************************** */
+
+#include "cat/private/vecimpl.h"
 
 
 /* ******************************************************************** */
-/* **************************** constants ***************************** */
+/* ********************** function definitions ************************ */
 /* ******************************************************************** */
 
-typedef enum CatErrorCode {
-    CAT_SUCCESS = 0,
-    CAT_FAILURE = 1              /* Do not use. */
-} CatErrorCode;
+CatErrorCode VecCreate(MPI_Comm comm, Vec *vec)
+{
+    Vec v;
 
-typedef enum CatBool {
-    CAT_FALSE = 0,
-    CAT_TRUE = 1
-} CatBool;
-
-/* ******************************************************************** */
-/* ************************** public data ***************************** */
-/* ******************************************************************** */
-
-typedef short int CatFlag;
-typedef long      CatInt;
-typedef double    CatScalar;
-typedef int       CatObjectId;
-
-typedef struct _p_CatObject *CatObject;
-
-#endif
+    CatFunctionBegin;
+    *vec = NULL;
+    CatCall(CatHeaderCreate(v, comm, VecDestroy));
+    *vec = v;
+    CatFunctionReturn(CAT_SUCCESS);
+}
 
 
 /* ******************************************************************** */

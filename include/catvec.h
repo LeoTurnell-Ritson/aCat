@@ -1,5 +1,8 @@
 /* ***************************** aCat ******************************** **
 **
+** @file catvec
+** @description
+**
 ** @author Copyright (C) 2023  Leo Turnell-Ritson
 ** @version 0.1
 **
@@ -20,58 +23,38 @@
 ** ******************************************************************** */
 
 
+#ifndef CATVEC_H
+#define CATVEC_H
+
+
 /* ******************************************************************** */
 /* ************************** include files *************************** */
 /* ******************************************************************** */
 
-#include "caterror.h"
-
-/* ******************************************************************** */
-/* ************************ global variables ************************** */
-/* ******************************************************************** */
-
-CatStack  __CATSTACK__;
-int       CatRank;
-int       CatSize;
+#include "catsys.h"
 
 
 /* ******************************************************************** */
-/* ********************** private functions *************************** */
+/* **************************** constants ***************************** */
 /* ******************************************************************** */
 
-static void private_ErrorDump(const CatErrorCode err, FILE *out)
-{
-    const char * msg = "CAT FATAL ERROR: errorcode";
-
-    fprintf(out, "[%d]%s (%d)\n", CatRank, msg, err);
-}
-
-static void private_StackDump(const CatStack stack, FILE *out)
-{
-    int i;
-    const char * msg = "CAT STACK DUMP:";
-
-    fprintf(out, "[%d]%s ", CatRank, msg);
-    for (i=0; i < stack.currsize; i++)
-    {
-        fprintf(out, "%s:", stack.file[i]);
-        fprintf(out, "%s:", stack.function[i]);
-        fprintf(out, "%d\t", stack.line[i]);
-    }
-    fprintf(out, "\n");
-}
 
 
 /* ******************************************************************** */
-/* ********************** functions definitions *********************** */
+/* ************************** public data ***************************** */
 /* ******************************************************************** */
 
-void CatError(const CatStack stack, const CatErrorCode err)
-{
-    private_ErrorDump(err, stderr);
-    private_StackDump(stack, stderr);
-    MPI_Abort(MPI_COMM_WORLD, err);
-}
+typedef struct _p_Vec  *Vec;
 
+
+/* ******************************************************************** */
+/* *********************** public functions *************************** */
+/* ******************************************************************** */
+
+extern CatErrorCode VecCreate(MPI_Comm, Vec *);
+extern CatErrorCode VecDestroy(Vec *);
+
+
+#endif
 
 /* ******************************************************************** */

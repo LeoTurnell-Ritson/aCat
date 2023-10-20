@@ -1,8 +1,5 @@
 /* ***************************** aCat ******************************** **
 **
-** @file catsys
-** @description
-**
 ** @author Copyright (C) 2023  Leo Turnell-Ritson
 ** @version 0.1
 **
@@ -23,44 +20,58 @@
 ** ******************************************************************** */
 
 
-#ifndef CATSYS_H
-#define CATSYS_H
-
-
-/* ******************************************************************** */
-/* ********************** include standard files ********************** */
-/* ******************************************************************** */
-
-#include <stdlib.h>
-
-
 /* ******************************************************************** */
 /* ************************** include files *************************** */
 /* ******************************************************************** */
 
-#include "cattypes.h"
 #include "caterror.h"
-#include "catmacros.h"
+
+/* ******************************************************************** */
+/* ************************ global variables ************************** */
+/* ******************************************************************** */
+
+CatStack  __CATSTACK__;
+int       CatRank;
+int       CatSize;
 
 
 /* ******************************************************************** */
-/* **************************** constants ***************************** */
+/* ********************** private functions *************************** */
 /* ******************************************************************** */
 
-#define CatNew(h) CatMalloc(__FILE__, __FUNC__, __LINE__, \
-                            sizeof (**(h)), (void*)(h))
+static void ErrorDump_Static(const CatErrorCode err, FILE *out)
+{
+    const char * msg = "CAT FATAL ERROR: errorcode";
+
+    fprintf(out, "[%d]%s (%d)\n", CatRank, msg, err);
+}
+
+static void StackDump_Static(const CatStack stack, FILE *out)
+{
+    int i;
+    const char * msg = "CAT STACK DUMP:";
+
+    fprintf(out, "[%d]%s ", CatRank, msg);
+    for (i=0; i < stack.currsize; i++)
+    {
+        fprintf(out, "%s:", stack.file[i]);
+        fprintf(out, "%s:", stack.function[i]);
+        fprintf(out, "%d\t", stack.line[i]);
+    }
+    fprintf(out, "\n");
+}
 
 
 /* ******************************************************************** */
-/* *********************** public functions *************************** */
+/* ********************** functions definitions *********************** */
 /* ******************************************************************** */
 
-extern CatErrorCode CatInitialise(int *, char ***);
-extern CatErrorCode CatFinalise(void);
-extern CatErrorCode CatMalloc(const char *, const char *, const int,
-                              const size_t, void **);
+void CatError(const CatStack stack, const CatErrorCode err)
+{
+    ErrorDump_Static(err, stderr);
+    StackDump_Static(stack, stderr);
+    MPI_Abort(MPI_COMM_WORLD, err);
+}
 
-
-#endif
 
 /* ******************************************************************** */

@@ -1,6 +1,6 @@
 /* ***************************** aCat ******************************** **
 **
-** @file cattypes
+** @file catimpl
 ** @description
 **
 ** @author Copyright (C) 2023  Leo Turnell-Ritson
@@ -23,36 +23,58 @@
 ** ******************************************************************** */
 
 
-#ifndef CATTYPES_H
-#define CATTYPES_H
+#ifndef CATIMPL_H
+#define CATIMPL_H
+
+
+/* ******************************************************************** */
+/* ************************** include files *************************** */
+/* ******************************************************************** */
+
+#include "catsys.h"
 
 
 /* ******************************************************************** */
 /* **************************** constants ***************************** */
 /* ******************************************************************** */
 
-typedef enum CatErrorCode {
-    CAT_SUCCESS = 0,
-    CAT_FAILURE = 1              /* Do not use. */
-} CatErrorCode;
+#define CatHeaderCreate(h, comm, dest) \
+  CatHeaderCreate_Private(CatNew(&(h)), \
+                          (CatObject *)&(h), \
+                          (comm), \
+                          (CatObjectDestroyFunction)(dest))
 
-typedef enum CatBool {
-    CAT_FALSE = 0,
-    CAT_TRUE = 1
-} CatBool;
+#define CatHeaderDestroy(h) CatHeaderDestroy_Private((CatObject *)h)
+
 
 /* ******************************************************************** */
 /* ************************** public data ***************************** */
 /* ******************************************************************** */
 
-typedef short int CatFlag;
-typedef long      CatInt;
-typedef double    CatScalar;
-typedef int       CatObjectId;
+typedef CatErrorCode (*CatObjectDestroyFunction)(CatObject *);
 
-typedef struct _p_CatObject *CatObject;
+typedef struct CatOps {
+    CatErrorCode (*destroy)(CatObject *);
+} CatOps;
+
+typedef struct _p_CatObject {
+    CatOps      bops[1];
+    CatObjectId id;
+} _p_CatObject;
+
+
+/* ******************************************************************** */
+/* *********************** public functions *************************** */
+/* ******************************************************************** */
+
+extern CatErrorCode CatHeaderCreate_Private(CatErrorCode,
+                                            CatObject *,
+                                            MPI_Comm,
+                                            CatObjectDestroyFunction);
+
+extern CatErrorCode CatHeaderDestroy_Private(CatObject *h);
+
 
 #endif
-
 
 /* ******************************************************************** */

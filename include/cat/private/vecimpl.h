@@ -1,6 +1,6 @@
 /* ***************************** aCat ******************************** **
 **
-** @file cattypes
+** @file vecimpl
 ** @description
 **
 ** @author Copyright (C) 2023  Leo Turnell-Ritson
@@ -23,36 +23,53 @@
 ** ******************************************************************** */
 
 
-#ifndef CATTYPES_H
-#define CATTYPES_H
+#ifndef VECTIMPL_H
+#define VECIMPL_H
+
+
+/* ******************************************************************** */
+/* ************************** include files *************************** */
+/* ******************************************************************** */
+
+#include "catvec.h"
+#include "cat/private/catimpl.h"
 
 
 /* ******************************************************************** */
 /* **************************** constants ***************************** */
 /* ******************************************************************** */
 
-typedef enum CatErrorCode {
-    CAT_SUCCESS = 0,
-    CAT_FAILURE = 1              /* Do not use. */
-} CatErrorCode;
 
-typedef enum CatBool {
-    CAT_FALSE = 0,
-    CAT_TRUE = 1
-} CatBool;
 
 /* ******************************************************************** */
 /* ************************** public data ***************************** */
 /* ******************************************************************** */
 
-typedef short int CatFlag;
-typedef long      CatInt;
-typedef double    CatScalar;
-typedef int       CatObjectId;
+struct VecLayout {
+    MPI_Comm  comm;
+    CatInt    n, N;           /* local, global vector size */
+    CatInt    lstart, lend;   /* local start, local end + 1 */
+};
 
-typedef struct _p_CatObject *CatObject;
+
+/*typedef struct _VecOps *VecOps;*/
+struct VecOps {
+    CatErrorCode (*Destroy)(Vec);
+};
+
+struct _p_Vec {
+    _p_CatObject      hdr;
+    struct VecOps     ops[1];
+    struct VecLayout  map;
+    void             *data;
+};
+
+
+/* ******************************************************************** */
+/* *********************** public functions *************************** */
+/* ******************************************************************** */
+
 
 #endif
-
 
 /* ******************************************************************** */

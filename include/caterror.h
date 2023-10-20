@@ -47,7 +47,7 @@
 /* ************************* private constants ************************ */
 /* ******************************************************************** */
 
-#define private_StackPush(stack__, file__, func__, line__) \
+#define StackPush_Private(stack__, file__, func__, line__) \
     do { \
         if (stack__.currsize < CAT_STACKSIZE) { \
             stack__.file[stack__.currsize] = file__; \
@@ -58,7 +58,7 @@
     } while (0) \
 
 
-#define private_StackPop(stack__) \
+#define StackPop_Private(stack__)  \
     do { \
         --stack__.currsize; \
         stack__.file[stack__.currsize] = NULL; \
@@ -66,14 +66,14 @@
         stack__.line[stack__.currsize] = 0; \
     } while (0) \
 
-#define private_StackUpdateLine(stack__, line__, func__) \
+#define StackUpdateLine_Private(stack__, line__, func__) \
     do { \
         if (stack__.currsize > 0 && stack__.function[stack__.currsize - 1] == func__) \
             stack__.line[stack__.currsize - 1] = line__; \
     } while (0) \
 
 
-#define private_Call(...) \
+#define Call_Private(...)  \
     do { \
         CatStackUpdateLine; \
         CatErrorCode err = __VA_ARGS__ ; \
@@ -86,10 +86,10 @@
 /* ******************************************************************** */
 
 
-#define CatStackPush(func) private_StackPush(__CATSTACK__, __FILE__, func, __LINE__)
-#define CatStackPop        private_StackPop(__CATSTACK__)
-#define CatStackUpdateLine private_StackUpdateLine(__CATSTACK__, __LINE__, __FUNC__)
-#define CatCall(...)       private_Call(__VA_ARGS__)
+#define CatStackPush(func) StackPush_Private(__CATSTACK__, __FILE__, func, __LINE__)
+#define CatStackPop        StackPop_Private(__CATSTACK__)
+#define CatStackUpdateLine StackUpdateLine_Private(__CATSTACK__, __LINE__, __FUNC__)
+#define CatCall(...)       Call_Private(__VA_ARGS__)
 
 #define CatFunctionBegin        CatStackPush(__FUNC__)
 #define CatFunctionReturn(...)  CatStackPop; return __VA_ARGS__

@@ -1,8 +1,5 @@
 /* ***************************** aCat ******************************** **
 **
-** @file cattypes
-** @description
-**
 ** @author Copyright (C) 2023  Leo Turnell-Ritson
 ** @version 0.1
 **
@@ -23,36 +20,29 @@
 ** ******************************************************************** */
 
 
-#ifndef CATTYPES_H
-#define CATTYPES_H
+/* ******************************************************************** */
+/* ************************** include files *************************** */
+/* ******************************************************************** */
+
+#include "catsys.h"
 
 
 /* ******************************************************************** */
-/* **************************** constants ***************************** */
+/* ********************** function definitions *********************** */
 /* ******************************************************************** */
 
-typedef enum CatErrorCode {
-    CAT_SUCCESS = 0,
-    CAT_FAILURE = 1              /* Do not use. */
-} CatErrorCode;
+CatErrorCode CatMalloc(const char *file, const char *func, const int line, const size_t size, void **ptr)
+{
+  CatNoUnusedWarn(file);
+  CatNoUnusedWarn(line);
+  CatNoUnusedWarn(func);
 
-typedef enum CatBool {
-    CAT_FALSE = 0,
-    CAT_TRUE = 1
-} CatBool;
-
-/* ******************************************************************** */
-/* ************************** public data ***************************** */
-/* ******************************************************************** */
-
-typedef short int CatFlag;
-typedef long      CatInt;
-typedef double    CatScalar;
-typedef int       CatObjectId;
-
-typedef struct _p_CatObject *CatObject;
-
-#endif
+  CatFunctionBegin;
+  *ptr = malloc(size);
+  if (*ptr==NULL)
+    CatFunctionReturn(CAT_FAILURE);
+  CatFunctionReturn(CAT_SUCCESS);
+}
 
 
 /* ******************************************************************** */

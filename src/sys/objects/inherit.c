@@ -1,8 +1,5 @@
 /* ***************************** aCat ******************************** **
 **
-** @file cattypes
-** @description
-**
 ** @author Copyright (C) 2023  Leo Turnell-Ritson
 ** @version 0.1
 **
@@ -23,36 +20,45 @@
 ** ******************************************************************** */
 
 
-#ifndef CATTYPES_H
-#define CATTYPES_H
+/* ******************************************************************** */
+/* ************************** include files *************************** */
+/* ******************************************************************** */
+
+#include "cat/private/catimpl.h"
 
 
 /* ******************************************************************** */
-/* **************************** constants ***************************** */
+/* ********************** Static functions ********** ***************** */
 /* ******************************************************************** */
 
-typedef enum CatErrorCode {
-    CAT_SUCCESS = 0,
-    CAT_FAILURE = 1              /* Do not use. */
-} CatErrorCode;
-
-typedef enum CatBool {
-    CAT_FALSE = 0,
-    CAT_TRUE = 1
-} CatBool;
 
 /* ******************************************************************** */
-/* ************************** public data ***************************** */
+/* ********************** function definitions *********************** */
 /* ******************************************************************** */
 
-typedef short int CatFlag;
-typedef long      CatInt;
-typedef double    CatScalar;
-typedef int       CatObjectId;
+CatErrorCode CatHeaderCreate_Private(CatErrorCode err,
+                                     CatObject *h,
+                                     MPI_Comm comm,
+                                     CatObjectDestroyFunction destroy)
+{
+    CatNoUnusedWarn(comm);
 
-typedef struct _p_CatObject *CatObject;
+    if (err)
+        CatFunctionReturn(err);
 
-#endif
+    CatFunctionBegin;
+    (*h)->bops->destroy = destroy;
+    (*h)->id = 0;                   /*TODO: Sort an object  id tracker.*/
+    CatFunctionReturn(CAT_SUCCESS);
+}
 
+
+CatErrorCode CatHeaderDestroy_Private(CatObject *h)
+{
+    CatNoUnusedWarn(h);
+
+    CatFunctionBegin;
+    CatFunctionReturn(CAT_SUCCESS);
+}
 
 /* ******************************************************************** */

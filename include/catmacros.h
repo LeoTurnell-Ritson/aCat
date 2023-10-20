@@ -32,7 +32,6 @@
 /* ******************************************************************** */
 
 #define __FUNC__  __func__
-/*#define NULL      ((void *)0)*/
 
 #define CatUnlikely(cond)   __builtin_expect(!!(cond), 0)
 #define CatLikely(cond)     __builtin_expect(!!(cond), 1)
