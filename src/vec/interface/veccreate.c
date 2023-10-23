@@ -28,6 +28,31 @@
 
 
 /* ******************************************************************** */
+/* ********************** private functions *************************** */
+/* ******************************************************************** */
+
+static CatErrorCode LayoutCreate_Static(MPI_Comm comm,
+                                        CatLayout *map)
+{
+    CatFunctionBegin;
+    CatCall(CatNew(map));
+    (*map)->comm = comm;
+    (*map)->n = -1;
+    (*map)->N = -1;
+    (*map)->lstart = 0;
+    (*map)->lend   = 0;
+    CatFunctionReturn(CAT_SUCCESS);
+}
+
+static CatErrorCode SetNullOps_Static(Vec *vec)
+{
+    CatFunctionBegin;
+    (*vec)->ops->destroy = NULL;
+    CatFunctionReturn(CAT_SUCCESS);
+}
+
+
+/* ******************************************************************** */
 /* ********************** function definitions ************************ */
 /* ******************************************************************** */
 
@@ -37,8 +62,11 @@ CatErrorCode VecCreate(MPI_Comm  comm,
     Vec v;
 
     CatFunctionBegin;
+    CatCall(CatHeaderCreate(v, comm, "Vec", VecDestroy));
+    CatCall(LayoutCreate_Static(comm, &v->map));
+    CatCall(SetNullOps_Static(&v));
+    v->data = NULL;
     *vec = NULL;
-    CatCall(CatHeaderCreate(v, comm, VecDestroy));
     *vec = v;
     CatFunctionReturn(CAT_SUCCESS);
 }

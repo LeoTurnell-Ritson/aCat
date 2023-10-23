@@ -38,28 +38,50 @@
 /* **************************** constants ***************************** */
 /* ******************************************************************** */
 
-#define CatHeaderCreate(h, comm, dest) \
-  CatHeaderCreate_Private(CatNew(&(h)), \
-                          (CatObject *)&(h), \
-                          (comm), \
-                          (CatObjectDestroyFunction)(dest))
+#define CatHeaderCreate(h, comm, class, dest) \
+    CatHeaderCreate_Private(CatNew(&(h)), \
+                            (CatObject *)&(h), \
+                            (comm), \
+                            (class))
 
 #define CatHeaderDestroy(h) CatHeaderDestroy_Private((CatObject *)h)
+
+#define CatTryTypeMethod(obj, ...) \
+    do { \
+        if ((obj)->ops->CAT_FIRST_ARG((__VA_ARGS__, unused)) != NULL) \
+        { \
+            CatErrorCode ierr__; \
+            ierr__ = (*(obj)->ops->CAT_FIRST_ARG((__VA_ARGS__, unused))) \
+                (obj CAT_REST_ARG(__VA_ARGS__)); \
+            CatCall(ierr__); \
+        } \
+    } while (0)
+
+#define CatUseTypeMethod(obj, ...)  \
+    do { \
+        if ((obj)->ops->CAT_FIRST_ARG((__VA_ARGS__, unused)) != NULL) \
+        { \
+            CatErrorCode ierr__; \
+            ierr__ = (*(obj)->ops->CAT_FIRST_ARG((__VA_ARGS__, unused))) \
+                (obj CAT_REST_ARG(__VA_ARGS__)); \
+            CatCall(ierr__); \
+        } \
+        else  \
+        { \
+            CatCall(CAT_ERR_OPSNOTSET);  \
+        } \
+    } while (0)
 
 
 /* ******************************************************************** */
 /* ************************** public data ***************************** */
 /* ******************************************************************** */
 
-typedef CatErrorCode (*CatObjectDestroyFunction)(CatObject *);
-
-typedef struct CatOps {
-    CatErrorCode (*destroy)(CatObject *);
-} CatOps;
-
 typedef struct _p_CatObject {
-    CatOps      bops[1];
-    CatObjectId id;
+    CatObjectId  id;
+    MPI_Comm     comm;
+    char        *class;
+    char        *type;
 } _p_CatObject;
 
 
@@ -70,7 +92,7 @@ typedef struct _p_CatObject {
 extern CatErrorCode CatHeaderCreate_Private(CatErrorCode,
                                             CatObject *,
                                             MPI_Comm,
-                                            CatObjectDestroyFunction);
+                                            char *);
 
 extern CatErrorCode CatHeaderDestroy_Private(CatObject *h);
 

@@ -38,22 +38,40 @@
 /* **************************** constants ***************************** */
 /* ******************************************************************** */
 
+typedef char* VecType;
+#define VECSTANDARD  "standard"
 
 
 /* ******************************************************************** */
 /* ************************** public data ***************************** */
 /* ******************************************************************** */
 
-typedef struct _p_Vec  *Vec;
+typedef struct _p_Vec *Vec;
 
 
 /* ******************************************************************** */
 /* *********************** public functions *************************** */
 /* ******************************************************************** */
 
-extern CatErrorCode VecCreate(MPI_Comm, Vec *);
+extern CatErrorCode VecCreate(MPI_Comm,
+                              Vec *);
+
 extern CatErrorCode VecDestroy(Vec *);
 
+extern CatErrorCode VecSetType(Vec,
+                               VecType);
+
+extern CatErrorCode VecGetType(Vec,
+                               VecType *);
+
+extern CatErrorCode VecSetSizes(Vec,
+                                CatInt,
+                                CatInt);
+
+extern CatErrorCode VecCreateStandard(MPI_Comm,
+                                      CatInt,
+                                      CatInt,
+                                      Vec *);
 
 #endif
 

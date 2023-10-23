@@ -45,7 +45,8 @@
 /* ************************** public data ***************************** */
 /* ******************************************************************** */
 
-struct _n_VecLayout {
+
+struct _n_CatLayout {
     MPI_Comm  comm;
     CatInt    n, N;           /* local, global vector size */
     CatInt    lstart, lend;   /* local start, local end + 1 */
@@ -57,10 +58,10 @@ struct _n_VecOps {
 };
 
 struct _p_Vec {
-    _p_CatObject         hdr;
-    struct _n_VecOps     ops[1];
-    struct _n_VecLayout  map;
-    void                *data;
+    _p_CatObject       hdr;
+    struct _n_VecOps   ops[1];
+    CatLayout          map;
+    void              *data;
 };
 
 

@@ -33,13 +33,15 @@
 
 typedef enum CatErrorCode {
     CAT_SUCCESS = 0,
-    CAT_FAILURE = 1              /* Do not use. */
+    CAT_FAILURE = 1,        /* Do not use. */
+    CAT_ERR_OPSNOTSET = 55  /* Ops method of the object has not been set (is NULL). */
 } CatErrorCode;
 
 typedef enum CatBool {
     CAT_FALSE = 0,
     CAT_TRUE = 1
 } CatBool;
+
 
 /* ******************************************************************** */
 /* ************************** public data ***************************** */
@@ -51,6 +53,7 @@ typedef double    CatScalar;
 typedef int       CatObjectId;
 
 typedef struct _p_CatObject *CatObject;
+typedef struct _n_CatLayout *CatLayout;
 
 #endif
 

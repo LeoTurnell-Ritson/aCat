@@ -1,23 +1,14 @@
 #include "catsys.h"
-
-CatErrorCode bar()
-{
-  CatFunctionBegin;
-  CatFunctionReturn(CAT_SUCCESS);
-}
-
-CatErrorCode foo()
-{
-    CatFunctionBegin;
-    CatCall(bar());
-    CatFunctionReturn(CAT_SUCCESS);
-}
+#include "catvec.h"
 
 int main(int argc, char **argv)
 {
+    Vec   v;
+
     CatFunctionBegin;
     CatCall(CatInitialise(&argc, &argv));
-    CatCall(foo());
+    CatCall(VecCreateStandard(MPI_COMM_WORLD, 10, 10, &v));
+    CatCall(VecDestroy(&v));
     CatCall(CatFinalise());
     return 0;
 }

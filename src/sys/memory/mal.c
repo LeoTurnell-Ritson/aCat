@@ -39,8 +39,7 @@ CatErrorCode CatMalloc(const char *file, const char *func, const int line, const
 
   CatFunctionBegin;
   *ptr = malloc(size);
-  if (*ptr==NULL)
-    CatFunctionReturn(CAT_FAILURE);
+  if (*ptr==NULL) return CAT_FAILURE;
   CatFunctionReturn(CAT_SUCCESS);
 }
 

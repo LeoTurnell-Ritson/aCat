@@ -51,14 +51,13 @@ static void StackDump_Static(const CatStack stack, FILE *out)
     int i;
     const char * msg = "CAT STACK DUMP:";
 
-    fprintf(out, "[%d]%s ", CatRank, msg);
+    fprintf(out, "[%d]%s\n", CatRank, msg);
     for (i=0; i < stack.currsize; i++)
     {
-        fprintf(out, "%s:", stack.file[i]);
+        fprintf(out, "[%d]\t%s:", CatRank, stack.file[i]);
         fprintf(out, "%s:", stack.function[i]);
-        fprintf(out, "%d\t", stack.line[i]);
+        fprintf(out, "%d\n", stack.line[i]);
     }
-    fprintf(out, "\n");
 }
 
 

@@ -28,38 +28,25 @@
 
 
 /* ******************************************************************** */
-/* ********************** private functions *************************** */
-/* ******************************************************************** */
-
-static CatErrorCode LayoutDestroy_Static(CatLayout *map)
-{
-    CatFunctionBegin;
-    CatCall(CatFree((*map)));
-    *map = NULL;
-    CatFunctionReturn(CAT_SUCCESS);
-}
-
-
-/* ******************************************************************** */
 /* ********************** functions definitions *********************** */
 /* ******************************************************************** */
 
-CatErrorCode VecDestroy(Vec *v)
+CatErrorCode VecGetType(Vec vec,
+                        VecType *type)
 {
     CatFunctionBegin;
-    CatTryTypeMethod(*v, destroy);
-    CatCall(LayoutDestroy_Static(&(*v)->map));
-    CatCall(CatHeaderDestroy(v));
+    *type = ((CatObject)vec)->type;
     CatFunctionReturn(CAT_SUCCESS);
 }
 
-CatErrorCode VecSetSizes(Vec v,
-                         CatInt n,
-                         CatInt N)
+CatErrorCode VecSetType(Vec vec,
+                        VecType ntype)
 {
+    VecType ctype;
+
     CatFunctionBegin;
-    v->map->n = n;     /* TODO: Needs some N >= n sanity checking. */
-    v->map->N = N;
+    CatCall(VecGetType(vec, &ctype)); /* TODO: Currently this is not used. */
+    ((CatObject)vec)->type = ntype;
     CatFunctionReturn(CAT_SUCCESS);
 }
 

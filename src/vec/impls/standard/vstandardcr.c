@@ -24,44 +24,25 @@
 /* ************************** include files *************************** */
 /* ******************************************************************** */
 
-#include "cat/private/vecimpl.h"
-
-
-/* ******************************************************************** */
-/* ********************** private functions *************************** */
-/* ******************************************************************** */
-
-static CatErrorCode LayoutDestroy_Static(CatLayout *map)
-{
-    CatFunctionBegin;
-    CatCall(CatFree((*map)));
-    *map = NULL;
-    CatFunctionReturn(CAT_SUCCESS);
-}
+#include "catvec.h"
 
 
 /* ******************************************************************** */
 /* ********************** functions definitions *********************** */
 /* ******************************************************************** */
 
-CatErrorCode VecDestroy(Vec *v)
+CatErrorCode VecCreateStandard(MPI_Comm comm,
+                               CatInt n,
+                               CatInt N,
+                               Vec *v)
 {
     CatFunctionBegin;
-    CatTryTypeMethod(*v, destroy);
-    CatCall(LayoutDestroy_Static(&(*v)->map));
-    CatCall(CatHeaderDestroy(v));
+    CatCall(VecCreate(comm, v));
+    CatCall(VecSetSizes(*v, n, N));
+    CatCall(VecSetType(*v, VECSTANDARD));
     CatFunctionReturn(CAT_SUCCESS);
 }
 
-CatErrorCode VecSetSizes(Vec v,
-                         CatInt n,
-                         CatInt N)
-{
-    CatFunctionBegin;
-    v->map->n = n;     /* TODO: Needs some N >= n sanity checking. */
-    v->map->N = N;
-    CatFunctionReturn(CAT_SUCCESS);
-}
 
 
 /* ******************************************************************** */

@@ -39,15 +39,15 @@
 CatErrorCode CatHeaderCreate_Private(CatErrorCode err,
                                      CatObject *h,
                                      MPI_Comm comm,
-                                     CatObjectDestroyFunction destroy)
+                                     char *class)
 {
-    CatNoUnusedWarn(comm);
 
     if (err)
         CatFunctionReturn(err);
     CatFunctionBegin;
-    (*h)->bops->destroy = destroy;
     (*h)->id = 0;                   /*TODO: Sort an object id tracker.*/
+    (*h)->class = class;
+    (*h)->comm = comm;
     CatFunctionReturn(CAT_SUCCESS);
 }
 
