@@ -31,7 +31,8 @@
 /* ********************** function definitions ************************ */
 /* ******************************************************************** */
 
-CatErrorCode VecCreate(MPI_Comm comm, Vec *vec)
+CatErrorCode VecCreate(MPI_Comm  comm,
+                       Vec      *vec)
 {
     Vec v;
 

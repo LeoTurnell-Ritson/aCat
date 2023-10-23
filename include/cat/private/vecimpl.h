@@ -45,23 +45,22 @@
 /* ************************** public data ***************************** */
 /* ******************************************************************** */
 
-struct VecLayout {
+struct _n_VecLayout {
     MPI_Comm  comm;
     CatInt    n, N;           /* local, global vector size */
     CatInt    lstart, lend;   /* local start, local end + 1 */
 };
 
 
-/*typedef struct _VecOps *VecOps;*/
-struct VecOps {
-    CatErrorCode (*Destroy)(Vec);
+struct _n_VecOps {
+    CatErrorCode (*destroy)(Vec);
 };
 
 struct _p_Vec {
-    _p_CatObject      hdr;
-    struct VecOps     ops[1];
-    struct VecLayout  map;
-    void             *data;
+    _p_CatObject         hdr;
+    struct _n_VecOps     ops[1];
+    struct _n_VecLayout  map;
+    void                *data;
 };
 
 

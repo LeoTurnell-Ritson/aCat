@@ -90,14 +90,9 @@ build_binary() {
     filename=$(basename "$path")
     filename_without_extension="${filename%.*}"
     local build_path="$2"
-    $CAT_COMPILER  \
-        $path \
-        -c \
-        -o $build_path/$filename_without_extension.o \
-        $CAT_COMPILER_STANDARD \
-        $CAT_COMPILER_WARNING \
-        $CAT_COMPILER_OPTIMISATION \
-        $CAT_COMPILER_INCLUDE
+    local method="$CAT_COMPILER $path -c -o $build_path/$filename_without_extension.o $CAT_COMPILER_STANDARD $CAT_COMPILER_WARNING $CAT_COMPILER_OPTIMISATION $CAT_COMPILER_INCLUDE"
+    echo $method
+    eval $method
 }
 
 build_executable() {
@@ -107,29 +102,30 @@ build_executable() {
     local bin_path="$2"
     local build_path="$3"
     objects=$(find_files_by_extension "$build_path" "o")
-    $CAT_COMPILER \
-        -o $bin_path/$filename_without_extension.cat \
-        $objects \
-        $CAT_COMPILER_STANDARD \
-        $CAT_COMPILER_WARNING \
-        $CAT_COMPILER_OPTIMISATION \
-        $CAT_COMPILER_INCLUDE
+    local method="$CAT_COMPILER -o $bin_path/$filename_without_extension.cat $objects $CAT_COMPILER_STANDARD $CAT_COMPILER_WARNING $CAT_COMPILER_OPTIMISATION $CAT_COMPILER_INCLUDE"
+    echo $method
+    eval $method
 }
 
 ## #################################################################### ##
 
 # Function to display usage information
 display_usage() {
-    echo "Usage: $0 [-c] file"
+    echo "Usage: $0 [-cv] file"
     echo "Options:"
     echo "  -c "
+    echo "  -v "
 }
 
 make_obj=false
-while getopts ":c" opt; do
+verbose=true
+while getopts ":cv" opt; do
     case $opt in
         c)
             make_obj=true
+            ;;
+        v)
+            verbose=false
             ;;
         \?)
             echo "Invalid option: -$OPTARG"
@@ -154,7 +150,7 @@ SOURCE=$1
 SOURCE_RPTH=$(get_relative_path "$SOURCE" "$CAT_INST_DIR/$CAT_PROJECT_NAME")
 SOURCE_LPTH=$(get_first_directory "$SOURCE_RPTH")
 
-#if [[ "$SOURCE_LPTH" == "$CAT_SRC" ]]; then
+
 if [[ "$make_obj" == true ]]; then
     check_extension "$SOURCE" "c"
     CHECK="$?"

@@ -24,39 +24,21 @@
 /* ************************** include files *************************** */
 /* ******************************************************************** */
 
-#include "cat/private/catimpl.h"
+#include "cat/private/vecimpl.h"
 
 
 /* ******************************************************************** */
-/* ********************** Static functions ********** ***************** */
+/* ********************** functions definitions *********************** */
 /* ******************************************************************** */
 
-
-/* ******************************************************************** */
-/* ********************** function definitions *********************** */
-/* ******************************************************************** */
-
-CatErrorCode CatHeaderCreate_Private(CatErrorCode err,
-                                     CatObject *h,
-                                     MPI_Comm comm,
-                                     CatObjectDestroyFunction destroy)
-{
-    CatNoUnusedWarn(comm);
-
-    if (err)
-        CatFunctionReturn(err);
-    CatFunctionBegin;
-    (*h)->bops->destroy = destroy;
-    (*h)->id = 0;                   /*TODO: Sort an object id tracker.*/
-    CatFunctionReturn(CAT_SUCCESS);
-}
-
-
-CatErrorCode CatHeaderDestroy_Private(CatObject *h)
+CatErrorCode VecDestroy( Vec *v)
 {
     CatFunctionBegin;
-    CatCall(CatFree(*h));
+    /*CatTryTypeMethod(*v, destroy);*/
+    CatCall(CatHeaderDestroy(v));
     CatFunctionReturn(CAT_SUCCESS);
+
 }
+
 
 /* ******************************************************************** */
