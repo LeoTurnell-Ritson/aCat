@@ -53,15 +53,5 @@ CatErrorCode VecDestroy(Vec *v)
     CatFunctionReturn(CAT_SUCCESS);
 }
 
-CatErrorCode VecSetSizes(Vec v,
-                         CatInt n,
-                         CatInt N)
-{
-    CatFunctionBegin;
-    v->map->n = n;     /* TODO: Needs some N >= n sanity checking. */
-    v->map->N = N;
-    CatFunctionReturn(CAT_SUCCESS);
-}
-
 
 /* ******************************************************************** */

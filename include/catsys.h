@@ -38,9 +38,9 @@
 /* ************************** include files *************************** */
 /* ******************************************************************** */
 
-#include "cattypes.h"
-#include "caterror.h"
-#include "catmacros.h"
+#include <cattypes.h>
+#include <caterror.h>
+#include <catmacros.h>
 
 
 /* ******************************************************************** */

@@ -24,7 +24,6 @@
 /* ************************** include files *************************** */
 /* ******************************************************************** */
 
-/*#include <cat/private/vecimpl.h>*/
 #include <../src/vec/impls/native/vnativeimpl.h>
 
 
@@ -34,8 +33,12 @@
 
 static struct _n_VecOps NativeOps =
 {
-    CatDesignatedInitializer(destroy, VecDestroyNative_Internal),
-    CatDesignatedInitializer(create,  VecCreateNative_Internal)
+    CatDesignatedInitializer(destroy,       VecDestroyNative_Internal),
+    CatDesignatedInitializer(create,        VecCreateNative_Internal),
+    CatDesignatedInitializer(getarray,      VecGetArrayNative_Internal),
+    CatDesignatedInitializer(restorearray,  VecRestoreArrayNative_Internal),
+    CatDesignatedInitializer(getsize,       VecGetSizeNative_Internal),
+    CatDesignatedInitializer(getlocalsize,  VecGetLocalSizeNative_Internal)
 };
 
 
@@ -44,13 +47,11 @@ static struct _n_VecOps NativeOps =
 /* ******************************************************************** */
 
 CatErrorCode VecCreateNative(MPI_Comm comm,
-                             CatInt n,
-                             CatInt N,
+                             CatLayout *map,
                              Vec *v)
 {
     CatFunctionBegin;
-    CatCall(VecCreate(comm, v));
-    CatCall(VecSetSizes(*v, n, N));
+    CatCall(VecCreate(comm, map, v));
     CatCall(VecSetType(*v, VECNATIVE));
     CatSetTypeOps(*v, NativeOps);
     CatUseTypeMethod(*v, create);

@@ -46,6 +46,8 @@ typedef char* VecType;
 /* ************************** public data ***************************** */
 /* ******************************************************************** */
 
+typedef struct _p_CatLayout *CatLayout;
+
 typedef struct _p_Vec *Vec;
 
 
@@ -53,25 +55,13 @@ typedef struct _p_Vec *Vec;
 /* *********************** public functions *************************** */
 /* ******************************************************************** */
 
-extern CatErrorCode VecCreate(MPI_Comm,
-                              Vec *);
-
+extern CatErrorCode VecCreate(MPI_Comm, CatLayout *, Vec *);
 extern CatErrorCode VecDestroy(Vec *);
+extern CatErrorCode VecSetType(Vec, VecType);
+extern CatErrorCode VecGetType(Vec, VecType *);
+extern CatErrorCode VecSetSizes(Vec, CatInt, CatInt);
 
-extern CatErrorCode VecSetType(Vec,
-                               VecType);
-
-extern CatErrorCode VecGetType(Vec,
-                               VecType *);
-
-extern CatErrorCode VecSetSizes(Vec,
-                                CatInt,
-                                CatInt);
-
-extern CatErrorCode VecCreateNative(MPI_Comm,
-                                    CatInt,
-                                    CatInt,
-                                    Vec *);
+extern CatErrorCode VecCreateNative(MPI_Comm, CatLayout *, Vec *);
 
 #endif
 

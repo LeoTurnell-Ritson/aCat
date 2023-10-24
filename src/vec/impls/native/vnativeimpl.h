@@ -41,8 +41,11 @@
 typedef struct {
     CatScalar *array;
     CatInt     nghost;
+    CatMPIInt  nsendranks;
+    CatMPIInt  nrecvranks;
+    CatMPIInt *sendranks;
+    CatMPIInt *recvranks;
 } _n_VecNative;
-
 
 /* ******************************************************************** */
 /* *********************** public functions *************************** */
@@ -50,7 +53,10 @@ typedef struct {
 
 extern CatErrorCode VecDestroyNative_Internal(Vec);
 extern CatErrorCode VecCreateNative_Internal(Vec);
-
+extern CatErrorCode VecGetArrayNative_Internal(Vec, CatScalar **);
+extern CatErrorCode VecRestoreArrayNative_Internal(Vec, CatScalar **);
+extern CatErrorCode VecGetSizeNative_Internal(Vec, CatInt *);
+extern CatErrorCode VecGetLocalSizeNative_Internal(Vec, CatInt *);
 
 #endif
 

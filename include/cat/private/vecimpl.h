@@ -45,15 +45,19 @@
 /* ************************** public data ***************************** */
 /* ******************************************************************** */
 
-struct _n_CatLayout {
+struct _p_CatLayout {
     MPI_Comm  comm;
     CatInt    n, N;           /* local, global vector size */
     CatInt    lstart, lend;   /* local start, local end + 1 */
 };
 
 struct _n_VecOps {
-    CatErrorCode (*destroy)(Vec); /* Implementation specific data destruction. */
-    CatErrorCode (*create)(Vec);  /* Implementation specific data creation. */
+    CatErrorCode (*destroy)(Vec);    /* Implementation specific data destruction. */
+    CatErrorCode (*create)(Vec);     /* Implementation specific data creation. */
+    CatErrorCode (*getarray)(Vec, CatScalar **);
+    CatErrorCode (*restorearray)(Vec, CatScalar **);
+    CatErrorCode (*getsize)(Vec, CatInt *);
+    CatErrorCode (*getlocalsize)(Vec, CatInt *);
 };
 
 struct _p_Vec {

@@ -33,40 +33,32 @@
 
 static struct _n_VecOps NullOps =
 {
-    CatDesignatedInitializer(destroy, NULL),
-    CatDesignatedInitializer(create,  NULL)
+    CatDesignatedInitializer(destroy,       NULL),
+    CatDesignatedInitializer(create,        NULL),
+    CatDesignatedInitializer(getarray,      NULL),
+    CatDesignatedInitializer(restorearray,  NULL),
+    CatDesignatedInitializer(getsize,       NULL),
+    CatDesignatedInitializer(getlocalsize,  NULL)
 };
-
-static CatErrorCode LayoutCreate_Static(MPI_Comm comm,
-                                        CatLayout *map)
-{
-    CatFunctionBegin;
-    CatCall(CatNew(map));
-    (*map)->comm = comm;
-    (*map)->n = -1;
-    (*map)->N = -1;
-    (*map)->lstart = 0;
-    (*map)->lend   = 0;
-    CatFunctionReturn(CAT_SUCCESS);
-}
 
 
 /* ******************************************************************** */
 /* ********************** function definitions ************************ */
 /* ******************************************************************** */
 
-CatErrorCode VecCreate(MPI_Comm  comm,
-                       Vec      *vec)
+CatErrorCode VecCreate(MPI_Comm   comm,
+                       CatLayout *map,
+                       Vec       *vec)
 {
     Vec v;
 
     CatFunctionBegin;
-    *vec = NULL;
     CatCall(CatHeaderCreate(v, comm, "Vec"));
-    CatCall(LayoutCreate_Static(comm, &v->map));
     CatSetTypeOps(v, NullOps);
+    v->map  = *map;
     v->data = NULL;
-    *vec = v;
+    *vec    = NULL;
+    *vec    = v;
     CatFunctionReturn(CAT_SUCCESS);
 }
 

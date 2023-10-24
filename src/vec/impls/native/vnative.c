@@ -51,4 +51,33 @@ CatErrorCode VecCreateNative_Internal(Vec v)
     CatFunctionReturn(CAT_SUCCESS);
 }
 
+CatErrorCode VecGetArrayNative_Internal(Vec v,
+                                        CatScalar **a)
+{
+    CatFunctionBegin;
+    CatFunctionReturn(CAT_SUCCESS);
+}
+
+CatErrorCode VecRestoreArrayNative_Internal(Vec v,
+                                            CatScalar **a)
+{
+    CatFunctionBegin;
+    CatFunctionReturn(CAT_SUCCESS);
+}
+
+CatErrorCode VecGetSizeNative_Internal(Vec v,
+                                       CatInt *n)
+{
+    CatFunctionBegin;
+    CatFunctionReturn(CAT_SUCCESS);
+}
+
+CatErrorCode VecGetLocalSizeNative_Internal(Vec v,
+                                            CatInt *ln)
+{
+    CatFunctionBegin;
+    CatFunctionReturn(CAT_SUCCESS);
+}
+
+
 /* ******************************************************************** */

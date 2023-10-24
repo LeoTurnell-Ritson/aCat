@@ -51,9 +51,9 @@ typedef short int CatFlag;
 typedef long      CatInt;
 typedef double    CatScalar;
 typedef int       CatObjectId;
+typedef int       CatMPIInt;
 
 typedef struct _p_CatObject *CatObject;
-typedef struct _n_CatLayout *CatLayout;
 
 #endif
 
