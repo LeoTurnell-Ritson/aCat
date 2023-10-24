@@ -38,7 +38,7 @@
 /* **************************** constants ***************************** */
 /* ******************************************************************** */
 
-#define CatHeaderCreate(h, comm, class, dest) \
+#define CatHeaderCreate(h, comm, class) \
     CatHeaderCreate_Private(CatNew(&(h)), \
                             (CatObject *)&(h), \
                             (comm), \
@@ -71,6 +71,9 @@
             CatCall(CAT_ERR_OPSNOTSET);  \
         } \
     } while (0)
+
+
+#define CatSetTypeOps(obj, OP) (obj)->ops[0] = OP
 
 
 /* ******************************************************************** */

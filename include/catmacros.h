@@ -33,20 +33,21 @@
 
 #define __FUNC__  __func__
 
-#define CatUnlikely(cond)   __builtin_expect(!!(cond), 0)
-#define CatLikely(cond)     __builtin_expect(!!(cond), 1)
-#define CatNoUnusedWarn(x)  (void)(x)
+#define CatUnlikely(cond)                   __builtin_expect(!!(cond), 0)
+#define CatLikely(cond)                     __builtin_expect(!!(cond), 1)
+#define CatNoUnusedWarn(x)                  (void)(x)
+#define CatDesignatedInitializer(name, ...) .name = __VA_ARGS__
 
+#define CAT_FIRST_ARG_HELPER(N, ...)                                                                N
+#define CAT_FIRST_ARG(args)                                                                         CAT_FIRST_ARG_HELPER args
+#define CAT_SELECT_16TH(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15, a16, ...) a16
+#define CAT_NUM(...)                                                                                CAT_SELECT_16TH(__VA_ARGS__, TWOORMORE, TWOORMORE, TWOORMORE, TWOORMORE, TWOORMORE, TWOORMORE, TWOORMORE, TWOORMORE, TWOORMORE, TWOORMORE, TWOORMORE, TWOORMORE, TWOORMORE, TWOORMORE, ONE, throwaway)
+#define CAT_REST_HELPER_TWOORMORE(first, ...)                                                       , __VA_ARGS__
+#define CAT_REST_HELPER_ONE(first)
+#define CAT_REST_HELPER2(qty, ...)                                                                  CAT_REST_HELPER_##qty(__VA_ARGS__)
+#define CAT_REST_HELPER(qty, ...)                                                                   CAT_REST_HELPER2(qty, __VA_ARGS__)
+#define CAT_REST_ARG(...)                                                                           CAT_REST_HELPER(CAT_NUM(__VA_ARGS__), __VA_ARGS__)
 
-#define PETSC_FIRST_ARG_(N, ...)                                                                      N
-#define CAT_FIRST_ARG(args)                                                                         PETSC_FIRST_ARG_ args
-#define PETSC_SELECT_16TH(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15, a16, ...) a16
-#define PETSC_NUM(...)                                                                                PETSC_SELECT_16TH(__VA_ARGS__, TWOORMORE, TWOORMORE, TWOORMORE, TWOORMORE, TWOORMORE, TWOORMORE, TWOORMORE, TWOORMORE, TWOORMORE, TWOORMORE, TWOORMORE, TWOORMORE, TWOORMORE, TWOORMORE, ONE, throwaway)
-#define PETSC_REST_HELPER_TWOORMORE(first, ...)                                                       , __VA_ARGS__
-#define PETSC_REST_HELPER_ONE(first)
-#define PETSC_REST_HELPER2(qty, ...) PETSC_REST_HELPER_##qty(__VA_ARGS__)
-#define PETSC_REST_HELPER(qty, ...)  PETSC_REST_HELPER2(qty, __VA_ARGS__)
-#define CAT_REST_ARG(...)          PETSC_REST_HELPER(PETSC_NUM(__VA_ARGS__), __VA_ARGS__)
 
 #endif
 

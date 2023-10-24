@@ -7,7 +7,7 @@ int main(int argc, char **argv)
 
     CatFunctionBegin;
     CatCall(CatInitialise(&argc, &argv));
-    CatCall(VecCreateStandard(MPI_COMM_WORLD, 10, 10, &v));
+    CatCall(VecCreateNative(MPI_COMM_WORLD, 10, 10, &v));
     CatCall(VecDestroy(&v));
     CatCall(CatFinalise());
     return 0;

@@ -1,5 +1,8 @@
 /* ***************************** aCat ******************************** **
 **
+** @file vnativeimpl
+** @description
+**
 ** @author Copyright (C) 2023  Leo Turnell-Ritson
 ** @version 0.1
 **
@@ -20,29 +23,35 @@
 ** ******************************************************************** */
 
 
+#ifndef VNATIVEIMPL_H
+#define VNATIVEIMPL_H
+
+
 /* ******************************************************************** */
 /* ************************** include files *************************** */
 /* ******************************************************************** */
 
-#include "catvec.h"
+#include <cat/private/vecimpl.h>
 
 
 /* ******************************************************************** */
-/* ********************** functions definitions *********************** */
+/* **************************** constants ***************************** */
 /* ******************************************************************** */
 
-CatErrorCode VecCreateStandard(MPI_Comm comm,
-                               CatInt n,
-                               CatInt N,
-                               Vec *v)
-{
-    CatFunctionBegin;
-    CatCall(VecCreate(comm, v));
-    CatCall(VecSetSizes(*v, n, N));
-    CatCall(VecSetType(*v, VECSTANDARD));
-    CatFunctionReturn(CAT_SUCCESS);
-}
+typedef struct {
+    CatScalar *array;
+    CatInt     nghost;
+} _n_VecNative;
 
 
+/* ******************************************************************** */
+/* *********************** public functions *************************** */
+/* ******************************************************************** */
+
+extern CatErrorCode VecDestroyNative_Internal(Vec);
+extern CatErrorCode VecCreateNative_Internal(Vec);
+
+
+#endif
 
 /* ******************************************************************** */

@@ -1,6 +1,6 @@
 /* ***************************** aCat ******************************** **
 **
-** @file catvec
+** @file vnativeimpl
 ** @description
 **
 ** @author Copyright (C) 2023  Leo Turnell-Ritson
@@ -23,55 +23,35 @@
 ** ******************************************************************** */
 
 
-#ifndef CATVEC_H
-#define CATVEC_H
+#ifndef VNATIVEIMPL_H
+#define VNATIVEIMPL_H
 
 
 /* ******************************************************************** */
 /* ************************** include files *************************** */
 /* ******************************************************************** */
 
-#include "catsys.h"
+#include <cat/private/vecimpl.h>
 
 
 /* ******************************************************************** */
 /* **************************** constants ***************************** */
 /* ******************************************************************** */
 
-typedef char* VecType;
-#define VECNATIVE  "native"
-
-
-/* ******************************************************************** */
-/* ************************** public data ***************************** */
-/* ******************************************************************** */
-
-typedef struct _p_Vec *Vec;
+typedef struct {
+    CatScalar *array;
+    CatInt     nghost;
+    
+} _n_VecNative;
 
 
 /* ******************************************************************** */
 /* *********************** public functions *************************** */
 /* ******************************************************************** */
 
-extern CatErrorCode VecCreate(MPI_Comm,
-                              Vec *);
+extern CatErrorCode VecDestroyNative_Internal(Vec);
+extern CatErrorCode VecCreateNative_Internal(Vec);
 
-extern CatErrorCode VecDestroy(Vec *);
-
-extern CatErrorCode VecSetType(Vec,
-                               VecType);
-
-extern CatErrorCode VecGetType(Vec,
-                               VecType *);
-
-extern CatErrorCode VecSetSizes(Vec,
-                                CatInt,
-                                CatInt);
-
-extern CatErrorCode VecCreateNative(MPI_Comm,
-                                    CatInt,
-                                    CatInt,
-                                    Vec *);
 
 #endif
 

@@ -1,8 +1,5 @@
 /* ***************************** aCat ******************************** **
 **
-** @file catvec
-** @description
-**
 ** @author Copyright (C) 2023  Leo Turnell-Ritson
 ** @version 0.1
 **
@@ -23,56 +20,43 @@
 ** ******************************************************************** */
 
 
-#ifndef CATVEC_H
-#define CATVEC_H
-
-
 /* ******************************************************************** */
 /* ************************** include files *************************** */
 /* ******************************************************************** */
 
-#include "catsys.h"
+/*#include <cat/private/vecimpl.h>*/
+#include <../src/vec/impls/native/vnativeimpl.h>
 
 
 /* ******************************************************************** */
-/* **************************** constants ***************************** */
+/* ************************** private data **************************** */
 /* ******************************************************************** */
 
-typedef char* VecType;
-#define VECNATIVE  "native"
-
-
-/* ******************************************************************** */
-/* ************************** public data ***************************** */
-/* ******************************************************************** */
-
-typedef struct _p_Vec *Vec;
+static struct _n_VecOps NativeOps =
+{
+    CatDesignatedInitializer(destroy, VecDestroyNative_Internal),
+    CatDesignatedInitializer(create,  VecCreateNative_Internal)
+};
 
 
 /* ******************************************************************** */
-/* *********************** public functions *************************** */
+/* ********************** functions definitions *********************** */
 /* ******************************************************************** */
 
-extern CatErrorCode VecCreate(MPI_Comm,
-                              Vec *);
+CatErrorCode VecCreateNative(MPI_Comm comm,
+                             CatInt n,
+                             CatInt N,
+                             Vec *v)
+{
+    CatFunctionBegin;
+    CatCall(VecCreate(comm, v));
+    CatCall(VecSetSizes(*v, n, N));
+    CatCall(VecSetType(*v, VECNATIVE));
+    CatSetTypeOps(*v, NativeOps);
+    CatUseTypeMethod(*v, create);
+    CatFunctionReturn(CAT_SUCCESS);
+}
 
-extern CatErrorCode VecDestroy(Vec *);
 
-extern CatErrorCode VecSetType(Vec,
-                               VecType);
-
-extern CatErrorCode VecGetType(Vec,
-                               VecType *);
-
-extern CatErrorCode VecSetSizes(Vec,
-                                CatInt,
-                                CatInt);
-
-extern CatErrorCode VecCreateNative(MPI_Comm,
-                                    CatInt,
-                                    CatInt,
-                                    Vec *);
-
-#endif
 
 /* ******************************************************************** */

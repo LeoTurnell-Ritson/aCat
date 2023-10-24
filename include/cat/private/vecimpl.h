@@ -23,7 +23,7 @@
 ** ******************************************************************** */
 
 
-#ifndef VECTIMPL_H
+#ifndef VECIMPL_H
 #define VECIMPL_H
 
 
@@ -45,23 +45,22 @@
 /* ************************** public data ***************************** */
 /* ******************************************************************** */
 
-
 struct _n_CatLayout {
     MPI_Comm  comm;
     CatInt    n, N;           /* local, global vector size */
     CatInt    lstart, lend;   /* local start, local end + 1 */
 };
 
-
 struct _n_VecOps {
-    CatErrorCode (*destroy)(Vec);
+    CatErrorCode (*destroy)(Vec); /* Implementation specific data destruction. */
+    CatErrorCode (*create)(Vec);  /* Implementation specific data creation. */
 };
 
 struct _p_Vec {
-    _p_CatObject       hdr;
-    struct _n_VecOps   ops[1];
-    CatLayout          map;
-    void              *data;
+    _p_CatObject      hdr;
+    struct _n_VecOps  ops[1];
+    CatLayout         map;
+    void             *data; /* Implementation specific data. */
 };
 
 
