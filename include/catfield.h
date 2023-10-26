@@ -1,6 +1,6 @@
 /* ***************************** aCat ******************************** **
 **
-** @file cattypes
+** @file catfield
 ** @description
 **
 ** @author Copyright (C) 2023  Leo Turnell-Ritson
@@ -23,50 +23,37 @@
 ** ******************************************************************** */
 
 
-#ifndef CATTYPES_H
-#define CATTYPES_H
+#ifndef CATFIELD_H
+#define CATFIELD_H
+
+
+/* ******************************************************************** */
+/* ************************** include files *************************** */
+/* ******************************************************************** */
+
+#include "catsys.h"
 
 
 /* ******************************************************************** */
 /* **************************** constants ***************************** */
 /* ******************************************************************** */
 
-typedef enum CatErrorCode {
-    CAT_SUCCESS = 0,
-    CAT_FAILURE = 1,        /* Do not use. */
-    CAT_ERR_OPSNOTSET = 55  /* Ops method of the object has not been set (is NULL). */
-} CatErrorCode;
-
-typedef enum CatBool {
-    CAT_FALSE = 0,
-    CAT_TRUE = 1
-} CatBool;
+typedef char* FieldType;
+#define FIELDNATIVE  "native"
 
 
 /* ******************************************************************** */
-/* ************************** public data ***************************** */
+/* *********************** public functions *************************** */
 /* ******************************************************************** */
 
-typedef short int CatFlag;
+extern CatErrorCode FieldCreate(MPI_Comm, Layout *, Field *);
+extern CatErrorCode FieldDestroy(Field *);
+extern CatErrorCode FieldSetType(Field, FieldType);
+extern CatErrorCode FieldGetType(Field, FieldType *);
+extern CatErrorCode FieldSetSizes(Field, CatInt, CatInt);
 
-typedef long      CatInt;
-
-typedef double    CatScalar;
-
-typedef int       CatObjectId;
-
-typedef int       CatMPIInt;
-
-typedef struct _p_CatObject *CatObject;
-
-typedef struct _p_Domain    *Domain;
-
-typedef struct _p_Layout    *Layout;
-
-typedef struct _p_Field     *Field;
-
+extern CatErrorCode FieldCreateNative(MPI_Comm, Layout *, Field *);
 
 #endif
-
 
 /* ******************************************************************** */

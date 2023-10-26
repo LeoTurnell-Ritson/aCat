@@ -1,5 +1,8 @@
 /* ***************************** aCat ******************************** **
 **
+** @file catdomain
+** @description
+**
 ** @author Copyright (C) 2023  Leo Turnell-Ritson
 ** @version 0.1
 **
@@ -20,64 +23,36 @@
 ** ******************************************************************** */
 
 
+#ifndef CATDOMAIN_H
+#define CATDOMAIN_H
+
+
 /* ******************************************************************** */
 /* ************************** include files *************************** */
 /* ******************************************************************** */
 
-#include <../src/vec/impls/native/vnativeimpl.h>
+#include "catsys.h"
 
 
 /* ******************************************************************** */
-/* ********************** functions definitions *********************** */
+/* **************************** constants ***************************** */
 /* ******************************************************************** */
 
+typedef char* DomainType;
+#define   DOMAINDA    "da"    /* Distributed array. */
+#define   DOMAINSWARM "swarm" /* Swarm array. */
 
-CatErrorCode VecDestroyNative_Internal(Vec v)
-{
-    CatFunctionBegin;
-    CatCall(CatFree(v->data));
-    CatFunctionReturn(CAT_SUCCESS);
-}
 
-CatErrorCode VecCreateNative_Internal(Vec v)
-{
-    _n_VecNative *s;
+/* ******************************************************************** */
+/* *********************** public functions *************************** */
+/* ******************************************************************** */
 
-    CatFunctionBegin;
-    CatCall(CatNew(&s));
-    v->data = (void *)s;
-    s->array = NULL;
-    v->ops->create = NULL;    /* Stops create method from being called? */
-    CatFunctionReturn(CAT_SUCCESS);
-}
+extern CatErrorCode DomainCreate(MPI_Comm,  Domain *);
+extern CatErrorCode DomainDestroy(Domain *);
+extern CatErrorCode DomainSetType(Domain, DomainType);
+extern CatErrorCode DomainGetType(Domain, DomainType *);
 
-CatErrorCode VecGetArrayNative_Internal(Vec v,
-                                        CatScalar **a)
-{
-    CatFunctionBegin;
-    CatFunctionReturn(CAT_SUCCESS);
-}
 
-CatErrorCode VecRestoreArrayNative_Internal(Vec v,
-                                            CatScalar **a)
-{
-    CatFunctionBegin;
-    CatFunctionReturn(CAT_SUCCESS);
-}
-
-CatErrorCode VecGetSizeNative_Internal(Vec v,
-                                       CatInt *n)
-{
-    CatFunctionBegin;
-    CatFunctionReturn(CAT_SUCCESS);
-}
-
-CatErrorCode VecGetLocalSizeNative_Internal(Vec v,
-                                            CatInt *ln)
-{
-    CatFunctionBegin;
-    CatFunctionReturn(CAT_SUCCESS);
-}
-
+#endif
 
 /* ******************************************************************** */

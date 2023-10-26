@@ -24,21 +24,21 @@
 /* ************************** include files *************************** */
 /* ******************************************************************** */
 
-#include "cat/private/vecimpl.h"
+#include "cat/private/fieldimpl.h"
 
 
 /* ******************************************************************** */
 /* ********************** private functions *************************** */
 /* ******************************************************************** */
 
-static struct _n_VecOps NullOps =
+static struct _n_FieldOps NullOps =
 {
     CatDesignatedInitializer(destroy,       NULL),
     CatDesignatedInitializer(create,        NULL),
     CatDesignatedInitializer(getarray,      NULL),
     CatDesignatedInitializer(restorearray,  NULL),
     CatDesignatedInitializer(getsize,       NULL),
-    CatDesignatedInitializer(getlocalsize,  NULL)
+    CatDesignatedInitializer(getinternalsize,  NULL)
 };
 
 
@@ -46,19 +46,19 @@ static struct _n_VecOps NullOps =
 /* ********************** function definitions ************************ */
 /* ******************************************************************** */
 
-CatErrorCode VecCreate(MPI_Comm   comm,
-                       CatLayout *map,
-                       Vec       *vec)
+CatErrorCode FieldCreate(MPI_Comm  comm,
+                         Layout   *map,
+                         Field    *field)
 {
-    Vec v;
+    Field f;
 
     CatFunctionBegin;
-    CatCall(CatHeaderCreate(v, comm, "Vec"));
-    CatSetTypeOps(v, NullOps);
-    v->map  = *map;
-    v->data = NULL;
-    *vec    = NULL;
-    *vec    = v;
+    CatCall(CatHeaderCreate(f, comm, "Field"));
+    CatSetTypeOps(f, NullOps);
+    f->map  = map;
+    f->data = NULL;
+    *field  = NULL;
+    *field  = f;
     CatFunctionReturn(CAT_SUCCESS);
 }
 

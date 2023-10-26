@@ -31,6 +31,12 @@
 /* ********************** Static functions ********** ***************** */
 /* ******************************************************************** */
 
+static CatObjectId CatNewObjectId_Static(void)
+{
+    static CatObjectId  catidcnt = -1;
+    return catidcnt++;
+}
+
 
 /* ******************************************************************** */
 /* ********************** function definitions *********************** */
@@ -41,11 +47,10 @@ CatErrorCode CatHeaderCreate_Private(CatErrorCode err,
                                      MPI_Comm comm,
                                      char *class)
 {
-
     if (err)
         CatFunctionReturn(err);
     CatFunctionBegin;
-    (*h)->id = 0;                   /*TODO: Sort an object id tracker.*/
+    (*h)->id = CatNewObjectId_Static(); /*Not sure is this actualy works?*/
     (*h)->class = class;
     (*h)->comm = comm;
     CatFunctionReturn(CAT_SUCCESS);

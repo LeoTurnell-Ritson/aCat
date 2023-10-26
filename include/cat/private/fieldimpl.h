@@ -1,5 +1,8 @@
 /* ***************************** aCat ******************************** **
 **
+** @file fieldimpl
+** @description
+**
 ** @author Copyright (C) 2023  Leo Turnell-Ritson
 ** @version 0.1
 **
@@ -20,44 +23,50 @@
 ** ******************************************************************** */
 
 
+#ifndef FIELDIMPL_H
+#define FIELDIMPL_H
+
+
 /* ******************************************************************** */
 /* ************************** include files *************************** */
 /* ******************************************************************** */
 
-#include <../src/vec/impls/native/vnativeimpl.h>
+#include "catfield.h"
+#include "cat/private/catimpl.h"
 
 
 /* ******************************************************************** */
-/* ************************** private data **************************** */
+/* **************************** constants ***************************** */
 /* ******************************************************************** */
 
-static struct _n_VecOps NativeOps =
-{
-    CatDesignatedInitializer(destroy,       VecDestroyNative_Internal),
-    CatDesignatedInitializer(create,        VecCreateNative_Internal),
-    CatDesignatedInitializer(getarray,      VecGetArrayNative_Internal),
-    CatDesignatedInitializer(restorearray,  VecRestoreArrayNative_Internal),
-    CatDesignatedInitializer(getsize,       VecGetSizeNative_Internal),
-    CatDesignatedInitializer(getlocalsize,  VecGetLocalSizeNative_Internal)
+
+
+/* ******************************************************************** */
+/* ************************** public data ***************************** */
+/* ******************************************************************** */
+
+
+struct _n_FieldOps {
+    CatErrorCode (*destroy)(Field);    /* Implementation specific data destruction. */
+    CatErrorCode (*create)(Field);     /* Implementation specific data creation. */
+    CatErrorCode (*getarray)(Field, CatScalar **);
+    CatErrorCode (*restorearray)(Field, CatScalar **);
+    CatErrorCode (*getsize)(Field, CatInt *);
+    CatErrorCode (*getinternalsize)(Field, CatInt *);
+};
+
+struct _p_Field {
+    CATHEADER(struct _n_FieldOps);
+    Layout             *map;
+    void               *data; /* Implementation specific data. */
 };
 
 
 /* ******************************************************************** */
-/* ********************** functions definitions *********************** */
+/* *********************** public functions *************************** */
 /* ******************************************************************** */
 
-CatErrorCode VecCreateNative(MPI_Comm comm,
-                             CatLayout *map,
-                             Vec *v)
-{
-    CatFunctionBegin;
-    CatCall(VecCreate(comm, map, v));
-    CatCall(VecSetType(*v, VECNATIVE));
-    CatSetTypeOps(*v, NativeOps);
-    CatUseTypeMethod(*v, create);
-    CatFunctionReturn(CAT_SUCCESS);
-}
 
-
+#endif
 
 /* ******************************************************************** */

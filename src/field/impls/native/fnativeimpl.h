@@ -1,6 +1,6 @@
 /* ***************************** aCat ******************************** **
 **
-** @file vnativeimpl
+** @file fnativeimpl
 ** @description
 **
 ** @author Copyright (C) 2023  Leo Turnell-Ritson
@@ -23,15 +23,15 @@
 ** ******************************************************************** */
 
 
-#ifndef VNATIVEIMPL_H
-#define VNATIVEIMPL_H
+#ifndef FNATIVEIMPL_H
+#define FNATIVEIMPL_H
 
 
 /* ******************************************************************** */
 /* ************************** include files *************************** */
 /* ******************************************************************** */
 
-#include <cat/private/vecimpl.h>
+#include <cat/private/fieldimpl.h>
 
 
 /* ******************************************************************** */
@@ -40,23 +40,20 @@
 
 typedef struct {
     CatScalar *array;
-    CatInt     nghost;
-    CatMPIInt  nsendranks;
-    CatMPIInt  nrecvranks;
-    CatMPIInt *sendranks;
-    CatMPIInt *recvranks;
-} _n_VecNative;
+} _n_FieldNative;
+
 
 /* ******************************************************************** */
 /* *********************** public functions *************************** */
 /* ******************************************************************** */
 
-extern CatErrorCode VecDestroyNative_Internal(Vec);
-extern CatErrorCode VecCreateNative_Internal(Vec);
-extern CatErrorCode VecGetArrayNative_Internal(Vec, CatScalar **);
-extern CatErrorCode VecRestoreArrayNative_Internal(Vec, CatScalar **);
-extern CatErrorCode VecGetSizeNative_Internal(Vec, CatInt *);
-extern CatErrorCode VecGetLocalSizeNative_Internal(Vec, CatInt *);
+extern CatErrorCode FieldDestroyNative_Internal(Field);
+extern CatErrorCode FieldCreateNative_Internal(Field);
+extern CatErrorCode FieldGetArrayNative_Internal(Field, CatScalar **);
+extern CatErrorCode FieldRestoreArrayNative_Internal(Field, CatScalar **);
+extern CatErrorCode FieldGetSizeNative_Internal(Field, CatInt *);
+extern CatErrorCode FieldGetInSizeNative_Internal(Field, CatInt *);
+
 
 #endif
 

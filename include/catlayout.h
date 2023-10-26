@@ -1,5 +1,8 @@
 /* ***************************** aCat ******************************** **
 **
+** @file catlayout
+** @description
+**
 ** @author Copyright (C) 2023  Leo Turnell-Ritson
 ** @version 0.1
 **
@@ -20,35 +23,38 @@
 ** ******************************************************************** */
 
 
+#ifndef CATLAYOUT_H
+#define CATLAYOUT_H
+
+
 /* ******************************************************************** */
 /* ************************** include files *************************** */
 /* ******************************************************************** */
 
-#include <cat/private/vecimpl.h>
+#include "catsys.h"
 
 
 /* ******************************************************************** */
-/* ********************** functions definitions *********************** */
+/* **************************** constants ***************************** */
 /* ******************************************************************** */
 
-CatErrorCode VecGetType(Vec vec,
-                        VecType *type)
-{
-    CatFunctionBegin;
-    *type = ((CatObject)vec)->type;
-    CatFunctionReturn(CAT_SUCCESS);
-}
+typedef char* LayoutType;
+#define LAYOUTNATIVE  "native"
 
-CatErrorCode VecSetType(Vec vec,
-                        VecType ntype)
-{
-    VecType ctype;
 
-    CatFunctionBegin;
-    CatCall(VecGetType(vec, &ctype)); /* TODO: Currently this is not used. */
-    ((CatObject)vec)->type = ntype;
-    CatFunctionReturn(CAT_SUCCESS);
-}
+/* ******************************************************************** */
+/* *********************** public functions *************************** */
+/* ******************************************************************** */
+
+extern CatErrorCode LayoutCreate(MPI_Comm, Layout *);
+extern CatErrorCode LayoutDestroy(Layout *);
+extern CatErrorCode LayoutSetType(Layout, LayoutType);
+extern CatErrorCode LayoutGetType(Layout, LayoutType *);
+extern CatErrorCode LayoutSetSizes(Layout, CatInt, CatInt);
+
+extern CatErrorCode LayoutCreateNative(MPI_Comm, Layout *);
+
+#endif
 
 
 /* ******************************************************************** */

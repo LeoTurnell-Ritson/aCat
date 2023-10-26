@@ -1,8 +1,5 @@
 /* ***************************** aCat ******************************** **
 **
-** @file catvec
-** @description
-**
 ** @author Copyright (C) 2023  Leo Turnell-Ritson
 ** @version 0.1
 **
@@ -23,46 +20,37 @@
 ** ******************************************************************** */
 
 
-#ifndef CATVEC_H
-#define CATVEC_H
-
-
 /* ******************************************************************** */
 /* ************************** include files *************************** */
 /* ******************************************************************** */
 
-#include "catsys.h"
+#include <cat/private/fieldimpl.h>
 
 
 /* ******************************************************************** */
-/* **************************** constants ***************************** */
+/* ********************** private functions *************************** */
 /* ******************************************************************** */
 
-typedef char* VecType;
-#define VECNATIVE  "native"
-
-
-/* ******************************************************************** */
-/* ************************** public data ***************************** */
-/* ******************************************************************** */
-
-typedef struct _p_CatLayout *CatLayout;
-
-typedef struct _p_Vec *Vec;
+static CatErrorCode LayoutDestroy_Static(Layout *map)
+{
+    CatFunctionBegin;
+    CatCall(CatFree((*map)));
+    CatFunctionReturn(CAT_SUCCESS);
+}
 
 
 /* ******************************************************************** */
-/* *********************** public functions *************************** */
+/* ********************** functions definitions *********************** */
 /* ******************************************************************** */
 
-extern CatErrorCode VecCreate(MPI_Comm, CatLayout *, Vec *);
-extern CatErrorCode VecDestroy(Vec *);
-extern CatErrorCode VecSetType(Vec, VecType);
-extern CatErrorCode VecGetType(Vec, VecType *);
-extern CatErrorCode VecSetSizes(Vec, CatInt, CatInt);
+CatErrorCode FieldDestroy(Field *f)
+{
+    CatFunctionBegin;
+    CatTryTypeMethod(*f, destroy);
+    CatCall(LayoutDestroy_Static((*f)->map));
+    CatCall(CatHeaderDestroy(f));
+    CatFunctionReturn(CAT_SUCCESS);
+}
 
-extern CatErrorCode VecCreateNative(MPI_Comm, CatLayout *, Vec *);
-
-#endif
 
 /* ******************************************************************** */

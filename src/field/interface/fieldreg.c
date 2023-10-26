@@ -1,8 +1,5 @@
 /* ***************************** aCat ******************************** **
 **
-** @file cattypes
-** @description
-**
 ** @author Copyright (C) 2023  Leo Turnell-Ritson
 ** @version 0.1
 **
@@ -23,50 +20,35 @@
 ** ******************************************************************** */
 
 
-#ifndef CATTYPES_H
-#define CATTYPES_H
+/* ******************************************************************** */
+/* ************************** include files *************************** */
+/* ******************************************************************** */
+
+#include <cat/private/fieldimpl.h>
 
 
 /* ******************************************************************** */
-/* **************************** constants ***************************** */
+/* ********************** functions definitions *********************** */
 /* ******************************************************************** */
 
-typedef enum CatErrorCode {
-    CAT_SUCCESS = 0,
-    CAT_FAILURE = 1,        /* Do not use. */
-    CAT_ERR_OPSNOTSET = 55  /* Ops method of the object has not been set (is NULL). */
-} CatErrorCode;
+CatErrorCode FieldGetType(Field vec,
+                          FieldType *type)
+{
+    CatFunctionBegin;
+    *type = ((CatObject)vec)->type;
+    CatFunctionReturn(CAT_SUCCESS);
+}
 
-typedef enum CatBool {
-    CAT_FALSE = 0,
-    CAT_TRUE = 1
-} CatBool;
+CatErrorCode FieldSetType(Field f,
+                          FieldType ntype)
+{
+    FieldType ctype;
 
-
-/* ******************************************************************** */
-/* ************************** public data ***************************** */
-/* ******************************************************************** */
-
-typedef short int CatFlag;
-
-typedef long      CatInt;
-
-typedef double    CatScalar;
-
-typedef int       CatObjectId;
-
-typedef int       CatMPIInt;
-
-typedef struct _p_CatObject *CatObject;
-
-typedef struct _p_Domain    *Domain;
-
-typedef struct _p_Layout    *Layout;
-
-typedef struct _p_Field     *Field;
-
-
-#endif
+    CatFunctionBegin;
+    CatCall(FieldGetType(f, &ctype)); /* TODO: Currently this is not used. */
+    ((CatObject)f)->type = ntype;
+    CatFunctionReturn(CAT_SUCCESS);
+}
 
 
 /* ******************************************************************** */

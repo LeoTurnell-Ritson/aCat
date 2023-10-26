@@ -75,6 +75,9 @@
 
 #define CatSetTypeOps(obj, OP) (obj)->ops[0] = OP
 
+#define CATHEADER(OP) \
+    _p_CatObject hdr; \
+    OP             ops[1]
 
 /* ******************************************************************** */
 /* ************************** public data ***************************** */

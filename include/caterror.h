@@ -109,8 +109,8 @@ typedef struct CatStack {
 /* ******************************************************************** */
 
 extern CatStack  __CATSTACK__;
-extern int       CatRank;
-extern int       CatSize;
+extern CatMPIInt CatRank;
+extern CatMPIInt CatSize;
 
 
 /* ******************************************************************** */

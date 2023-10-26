@@ -1,8 +1,5 @@
 /* ***************************** aCat ******************************** **
 **
-** @file cattypes
-** @description
-**
 ** @author Copyright (C) 2023  Leo Turnell-Ritson
 ** @version 0.1
 **
@@ -23,50 +20,44 @@
 ** ******************************************************************** */
 
 
-#ifndef CATTYPES_H
-#define CATTYPES_H
+/* ******************************************************************** */
+/* ************************** include files *************************** */
+/* ******************************************************************** */
+
+#include <../src/field/impls/native/fnativeimpl.h>
 
 
 /* ******************************************************************** */
-/* **************************** constants ***************************** */
+/* ************************** private data **************************** */
 /* ******************************************************************** */
 
-typedef enum CatErrorCode {
-    CAT_SUCCESS = 0,
-    CAT_FAILURE = 1,        /* Do not use. */
-    CAT_ERR_OPSNOTSET = 55  /* Ops method of the object has not been set (is NULL). */
-} CatErrorCode;
-
-typedef enum CatBool {
-    CAT_FALSE = 0,
-    CAT_TRUE = 1
-} CatBool;
+static struct _n_FieldOps NativeOps =
+{
+    CatDesignatedInitializer(destroy,         FieldDestroyNative_Internal),
+    CatDesignatedInitializer(create,          FieldCreateNative_Internal),
+    CatDesignatedInitializer(getarray,        FieldGetArrayNative_Internal),
+    CatDesignatedInitializer(restorearray,    FieldRestoreArrayNative_Internal),
+    CatDesignatedInitializer(getsize,         FieldGetSizeNative_Internal),
+    CatDesignatedInitializer(getinternalsize, FieldGetInSizeNative_Internal)
+};
 
 
 /* ******************************************************************** */
-/* ************************** public data ***************************** */
+/* ********************** functions definitions *********************** */
 /* ******************************************************************** */
 
-typedef short int CatFlag;
+CatErrorCode FieldCreateNative(MPI_Comm  comm,
+                               Layout   *map,
+                               Field    *f)
+{
+    CatFunctionBegin;
+    CatCall(FieldCreate(comm, map, f));
+    CatCall(FieldSetType(*f, FIELDNATIVE));
+    CatSetTypeOps(*f, NativeOps);
+    CatUseTypeMethod(*f, create);
+    CatFunctionReturn(CAT_SUCCESS);
+}
 
-typedef long      CatInt;
-
-typedef double    CatScalar;
-
-typedef int       CatObjectId;
-
-typedef int       CatMPIInt;
-
-typedef struct _p_CatObject *CatObject;
-
-typedef struct _p_Domain    *Domain;
-
-typedef struct _p_Layout    *Layout;
-
-typedef struct _p_Field     *Field;
-
-
-#endif
 
 
 /* ******************************************************************** */

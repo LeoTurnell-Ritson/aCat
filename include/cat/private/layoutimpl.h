@@ -1,5 +1,8 @@
 /* ***************************** aCat ******************************** **
 **
+** @file layoutimpl
+** @description
+**
 ** @author Copyright (C) 2023  Leo Turnell-Ritson
 ** @version 0.1
 **
@@ -20,38 +23,38 @@
 ** ******************************************************************** */
 
 
+#ifndef LAYOUTIMPL_H
+#define LAYOUTIMPL_H
+
+
 /* ******************************************************************** */
 /* ************************** include files *************************** */
 /* ******************************************************************** */
 
-#include "cat/private/vecimpl.h"
+#include "catlayout.h"
+#include "cat/private/catimpl.h"
 
 
 /* ******************************************************************** */
-/* ********************** private functions *************************** */
+/* ************************** public data ***************************** */
 /* ******************************************************************** */
 
-static CatErrorCode LayoutDestroy_Static(CatLayout *map)
-{
-    CatFunctionBegin;
-    CatCall(CatFree((*map)));
-    *map = NULL;
-    CatFunctionReturn(CAT_SUCCESS);
-}
+struct _n_LayoutOps {
+    CatErrorCode (*destroy)(Field);    /* Implementation specific data destruction. */
+    CatErrorCode (*create)(Field);     /* Implementation specific data creation. */
+};
+
+struct _p_Layout {
+  CATHEADER(struct _n_LayoutOps);
+  void  *data; /* Implementation specific data. */
+};
 
 
 /* ******************************************************************** */
-/* ********************** functions definitions *********************** */
+/* *********************** public functions *************************** */
 /* ******************************************************************** */
 
-CatErrorCode VecDestroy(Vec *v)
-{
-    CatFunctionBegin;
-    CatTryTypeMethod(*v, destroy);
-    CatCall(LayoutDestroy_Static(&(*v)->map));
-    CatCall(CatHeaderDestroy(v));
-    CatFunctionReturn(CAT_SUCCESS);
-}
 
+#endif
 
 /* ******************************************************************** */
