@@ -39,8 +39,9 @@
 /* ******************************************************************** */
 
 typedef char* DomainType;
-#define   DOMAINDA    "da"    /* Distributed array. */
-#define   DOMAINSWARM "swarm" /* Swarm array. */
+#define  DOMAINDISTR "distr"    /* Distributed Cartesian array. */
+#define  DOMAINSTAGG "stagg"  /* Staggered set of (1+dimensions) distributed arrays. */
+#define  DOMAINSWARM "swarm" /* Swarm array, embedded in a distributed array. */
 
 
 /* ******************************************************************** */
