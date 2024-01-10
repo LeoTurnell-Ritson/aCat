@@ -3,10 +3,10 @@
 <div align="center">
 <h1 align="center">aCat</h1>
   <p align="center">
-     <strong>a</strong>cademic <strong>C</strong>artesian <strong>A</strong>lgebraic <strong>T</strong>oolset
+     <strong>a</strong>cademic <strong>C</strong>omputational <strong>A</strong>lgebraic <strong>T</strong>oolket
   </p>
 <p align="center">
-    Extensible Open Source Cartesian Linear-Algebra for Education and Academic Research.
+    Extensible Open Source Linear-Algebra for Education and Academic Research.
     <br />
     <a href="https://github.com/LeoTurnell-Ritson/aCat"><strong>Explore the docs »</strong></a>
     <br />
