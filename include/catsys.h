@@ -31,8 +31,6 @@
 
 #define CatFunctionBegin CatFunctionPush(__FILE__, __FUNCTION__, __LINE__)
 
-#define CatFunctionReturn(...) CatFunctionPop();  return __VA_ARGS__
-
 #define CatNew(r)                                                       \
         CatMallocAlign(CAT_TRUE, __FILE__,  __FUNCTION__, __LINE__,     \
                        (sizeof(**(r))), (void*)r)
@@ -45,6 +43,12 @@
         ((CAT_RETURN_CODE)                                              \
          (CatFreeAlign(__FILE__, __FUNCTION__, __LINE__,                \
                        (void *)(a)) || ((a) = NULL, CAT_SUCCESS)))
+
+#define CatFunctionReturn(...)                                          \
+        {                                                               \
+                CatFunctionPop();                                       \
+                return __VA_ARGS__;                                     \
+        }
 
 #define CatAssert(cond, comm, ...) \
         {                                                               \
@@ -97,6 +101,7 @@
 CAT_EXTERN CAT_RETURN_CODE CatInitialize(int *, char ***);
 CAT_EXTERN CAT_RETURN_CODE CatFinalize(void);
 CAT_EXTERN CAT_RETURN_CODE CatGetOptions(table_p *);
+CAT_EXTERN CAT_RETURN_CODE CatAddOptions(const char *);
 
 CAT_EXTERN CAT_RETURN_CODE CatMallocAlign(bool_t, const char *, const char *, const int, const size_t, void **);
 CAT_EXTERN CAT_RETURN_CODE CatFreeAlign(const char *, const char *, const int, void *);

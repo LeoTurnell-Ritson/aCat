@@ -4,6 +4,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+CAT_EXTERN CAT_RETURN_CODE CatStrToArray(const char *s, char sp, int *argc, char ***args);
+CAT_EXTERN CAT_RETURN_CODE CatStrArrayDestroy(char ***arr);
+
+
 static CAT_INLINE CAT_RETURN_CODE CatStrncmp(const char a[], const char b[], size_t n, bool_t *t)
 {
         CatFunctionBegin;

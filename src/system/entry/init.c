@@ -49,7 +49,7 @@ CAT_RETURN_CODE CatInitialize(int *argc, char ***argv)
 {
         CatFunctionBegin;
         CatMPIFunction(MPI_Init(argc, argv));
-        CatFunction(TableCreate(MPI_COMM_WORLD, &__CatDefaultOptions));
+        CatFunction(TableCreate(MPI_COMM_SELF, &__CatDefaultOptions));
         CatFunction(TableSizeSet(*argc * 2, __CatDefaultOptions));
         CatFunction(TableTypeSet(TABLE_HASH, __CatDefaultOptions));
         CatFunction(__ParseArgs(argc, argv));
@@ -71,5 +71,17 @@ CAT_RETURN_CODE CatGetOptions(table_p *args)
 {
         CatFunctionBegin;
         *args = __CatDefaultOptions;
+        CatFunctionReturn(CAT_SUCCESS);
+}
+
+CAT_RETURN_CODE CatAddOptions(const char *add)
+{
+        int     argc;
+        char  **argv;
+
+        CatFunctionBegin;
+        CatFunction(CatStrToArray(add, ' ', &argc, &argv));
+        CatFunction(__ParseArgs(&argc, &argv));
+        CatFunction(CatStrArrayDestroy(&argv));
         CatFunctionReturn(CAT_SUCCESS);
 }
