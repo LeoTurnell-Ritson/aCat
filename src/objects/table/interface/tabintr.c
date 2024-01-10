@@ -1,5 +1,7 @@
 #include <cat/private/tableimpl.h>
 
+#define __CAT_USING_DEBUG_BAD_LOOKUP_WARNINGS 0
+
 CAT_RETURN_CODE TableTypeSet(char *type, table_p tab)
 {
         CatFunctionBegin;
@@ -29,24 +31,32 @@ CAT_RETURN_CODE TablePush(char *key, label_t argc, char **argv, table_p tab)
 
 CAT_RETURN_CODE TableSearch(table_p tab, const char *key, bool_t *in)
 {
-        MPI_Comm comm;
-
         CatFunctionBegin;
         __HeaderUseTypeMethod(tab, search, key, in);
-        CatFunction(__HeaderGetComm(tab, &comm));
-        if (!(*in)) CatWarning(comm, CAT_ERR_BAD_LOOKUP,"%s not found", key);
+#if __CAT_USING_DEBUG_BAD_LOOKUP_WARNINGS
+        {
+                MPI_Comm comm;
+
+                CatFunction(__HeaderGetComm(tab, &comm));
+                if (!(*in)) CatWarning(comm, CAT_ERR_BAD_LOOKUP,"%s not found", key);
+        }
+#endif
+
         CatFunctionReturn(CAT_SUCCESS);
 }
 
 CAT_RETURN_CODE TableLookup(table_p tab, const char *key, label_t *argc, char ***argv, bool_t *in)
 {
-        MPI_Comm comm;
 
         CatFunctionBegin;
         __HeaderUseTypeMethod(tab, lookup, key, argc, argv, in);
-        CatFunction(__HeaderGetComm(tab, &comm));
-        if (!(*in)) {
-                CatWarning(comm, CAT_ERR_BAD_LOOKUP,"%s not found", key);
+#if __CAT_USING_DEBUG_BAD_LOOKUP_WARNINGS
+        {
+                MPI_Comm comm;
+
+                CatFunction(__HeaderGetComm(tab, &comm));
+                if (!(*in)) CatWarning(comm, CAT_ERR_BAD_LOOKUP,"%s not found", key);
         }
+#endif
         CatFunctionReturn(CAT_SUCCESS);
 }
