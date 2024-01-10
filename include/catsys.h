@@ -25,31 +25,74 @@
 
 #define CAT_STDERR stderr
 
-#define CatNew(r)  CatMallocAlign(CAT_TRUE, __FILE__,  __FUNCTION__, __LINE__, (sizeof(**(r))), (void*)r)
-
-#define CatCalloc(m, r) CatMallocAlign(CAT_TRUE, __FILE__,  __FUNCTION__, __LINE__, (size_t)(m), (void*)r)
-
-#define CatFree(a) ((CAT_RETURN_CODE)(CatFreeAlign(__FILE__, __FUNCTION__, __LINE__, (void *)(a)) || ((a) = NULL, CAT_SUCCESS)))
-
 #define CatUnlikely(cond) __builtin_expect(!!(cond), 0)
 
 #define CatLikely(cond) __builtin_expect(!!(cond), 1)
 
 #define CatFunctionBegin CatFunctionPush(__FILE__, __FUNCTION__, __LINE__)
 
-#define CatFunctionReturn(...) CatFunctionPop(); return __VA_ARGS__
+#define CatFunctionReturn(...) CatFunctionPop();  return __VA_ARGS__
 
-#define CatAssert(cond, comm, ...) {if (CatUnlikely(!(cond))) return CatError(comm, __FILE__, __FUNCTION__, __LINE__, "error", CAT_ERR_ASSERTION, __VA_ARGS__);}
+#define CatNew(r)                                                       \
+        CatMallocAlign(CAT_TRUE, __FILE__,  __FUNCTION__, __LINE__,     \
+                       (sizeof(**(r))), (void*)r)
 
-#define CatCheck(cond, comm, err, ...) {if (CatUnlikely(!(cond))) return CatError(comm, __FILE__, __FUNCTION__, __LINE__, "error", err, __VA_ARGS__);}
+#define CatCalloc(m, r)                                                 \
+        CatMallocAlign(CAT_TRUE, __FILE__,  __FUNCTION__, __LINE__,     \
+                       (size_t)(m), (void*)r)
 
-#define CatWarning(comm, err, ...) {CatWarnNoReturn(comm, __FILE__, __FUNCTION__, __LINE__, "warning", err, __VA_ARGS__);}
+#define CatFree(a)                                                      \
+        ((CAT_RETURN_CODE)                                              \
+         (CatFreeAlign(__FILE__, __FUNCTION__, __LINE__,                \
+                       (void *)(a)) || ((a) = NULL, CAT_SUCCESS)))
 
-#define CatFunction(...) {CatFunctionUpdateLine(__FUNCTION__, __LINE__); CAT_RETURN_CODE err = __VA_ARGS__; if (CatUnlikely(err)) return CatError(MPI_COMM_SELF, __FILE__, __FUNCTION__, __LINE__, "error", err, " ");}
+#define CatAssert(cond, comm, ...) \
+        {                                                               \
+                if (CatUnlikely(!(cond)))                               \
+                        return CatError(comm, __FILE__, __FUNCTION__,   \
+                                        __LINE__, "error",              \
+                                        CAT_ERR_ASSERTION,              \
+                                        __VA_ARGS__);                   \
+        }
 
-#define CatCheckNoReturn(cond, comm, err, ...) {if (CatUnlikely(!(cond))) CatErrorNoReturn(comm, __FILE__, __FUNCTION__, __LINE__, "error",err, __VA_ARGS__);}
+#define CatCheck(cond, comm, err, ...)                                  \
+        {                                                               \
+                if (CatUnlikely(!(cond)))                               \
+                        return CatError(comm, __FILE__, __FUNCTION__,   \
+                                        __LINE__, "error", err,         \
+                                        __VA_ARGS__);                   \
+        }
 
-#define CatMPIFunction(err) {CatFunctionUpdateLine(__FUNCTION__, __LINE__); if (CatUnlikely(err != MPI_SUCCESS)) return CatMPIError(err);}
+#define CatWarning(comm, err, ...)                                      \
+        {                                                               \
+                CatWarnNoReturn(comm, __FILE__, __FUNCTION__, __LINE__, \
+                                "warning", err, __VA_ARGS__);           \
+        }
+
+#define CatFunction(...)                                                \
+        {                                                               \
+                CatFunctionUpdateLine(__FUNCTION__, __LINE__);          \
+                CAT_RETURN_CODE err = __VA_ARGS__;                      \
+                if (CatUnlikely(err))                                   \
+                        return CatError(MPI_COMM_SELF, __FILE__,        \
+                                        __FUNCTION__, __LINE__,         \
+                                        "error", err, " ");             \
+        }
+
+#define CatCheckNoReturn(cond, comm, err, ...)                          \
+        {                                                               \
+                if (CatUnlikely(!(cond)))                               \
+                        CatErrorNoReturn(comm, __FILE__, __FUNCTION__,  \
+                                         __LINE__, "error",err,         \
+                                         __VA_ARGS__);                  \
+        }
+
+#define CatMPIFunction(err)                                             \
+        {                                                               \
+                CatFunctionUpdateLine(__FUNCTION__, __LINE__);          \
+                if (CatUnlikely(err != MPI_SUCCESS))                    \
+                        return CatMPIError(err);                        \
+        }
 
 CAT_EXTERN CAT_RETURN_CODE CatInitialize(int *, char ***);
 CAT_EXTERN CAT_RETURN_CODE CatFinalize(void);
