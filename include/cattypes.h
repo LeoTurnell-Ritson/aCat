@@ -1,72 +1,28 @@
-/* ***************************** aCat ******************************** **
-**
-** @file cattypes
-** @description
-**
-** @author Copyright (C) 2023  Leo Turnell-Ritson
-** @version 0.1
-**
-** This program is free software; you can redistribute it and/or
-** modify it under the terms of the GNU General Public License
-** as published by the Free Software Foundation; either version 2
-** of the License, or (at your option) any later version.
-**
-** This program is distributed in the hope that it will be useful,
-** but WITHOUT ANY WARRANTY; without even the implied warranty of
-** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-** GNU General Public License for more details.
-**
-** You should have received a copy of the GNU General Public License
-** along with this program; if not, write to the Free Software
-** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA.
-**
-** ******************************************************************** */
+#pragma once
 
+typedef enum {
+        CAT_FALSE = 0,
+        CAT_TRUE = 1
+} bool_t;
 
-#ifndef CATTYPES_H
-#define CATTYPES_H
+typedef enum {
+        CAT_SUCCESS = 0,
+        CAT_ERR_BOOLEAN_MACRO_FAILURE,
+        CAT_ERR_ASSERTION,
+        CAT_ERR_NOT_IMPLEMENTED,
+        CAT_ERR_MEMORY,
+        CAT_ERR_SYSTEM_LIBARY,
+        CAT_ERR_INVALID_POINTER,
+        CAT_ERR_UNREACHABLE,
+        CAT_ERR_OPERATION_NOT_SET,
+        CAT_ERR_DEBUG_MEMORY_MALLOC,
+        CAT_ERR_DEBUG_MEMORY_FREE,
+        CAT_ERR_BAD_INITIALIZATION,
+        CAT_ERR_BAD_DIMENSIONS,
+        CAT_ERR_MEMORY_LEAK,
+        CAT_ERR_BAD_LOOKUP
+} error_t;
 
+typedef double scalar_t;
 
-/* ******************************************************************** */
-/* **************************** constants ***************************** */
-/* ******************************************************************** */
-
-typedef enum CatErrorCode {
-    CAT_SUCCESS = 0,
-    CAT_FAILURE = 1,        /* Do not use. */
-    CAT_ERR_OPSNOTSET = 55  /* Ops method of the object has not been set (is NULL). */
-} CatErrorCode;
-
-typedef enum CatBool {
-    CAT_FALSE = 0,
-    CAT_TRUE = 1
-} CatBool;
-
-
-/* ******************************************************************** */
-/* ************************** public data ***************************** */
-/* ******************************************************************** */
-
-typedef short int CatFlag;
-
-typedef long      CatInt;
-
-typedef double    CatScalar;
-
-typedef int       CatObjectId;
-
-typedef int       CatMPIInt;
-
-typedef struct _p_CatObject *CatObject;
-
-typedef struct _p_Domain    *Domain;
-
-typedef struct _p_Layout    *Layout;
-
-typedef struct _p_Field     *Field;
-
-
-#endif
-
-
-/* ******************************************************************** */
+typedef unsigned int label_t;

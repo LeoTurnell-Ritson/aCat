@@ -1,108 +1,107 @@
-/* ***************************** aCat ******************************** **
-**
-** @file catimpl
-** @description
-**
-** @author Copyright (C) 2023  Leo Turnell-Ritson
-** @version 0.1
-**
-** This program is free software; you can redistribute it and/or
-** modify it under the terms of the GNU General Public License
-** as published by the Free Software Foundation; either version 2
-** of the License, or (at your option) any later version.
-**
-** This program is distributed in the hope that it will be useful,
-** but WITHOUT ANY WARRANTY; without even the implied warranty of
-** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-** GNU General Public License for more details.
-**
-** You should have received a copy of the GNU General Public License
-** along with this program; if not, write to the Free Software
-** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA.
-**
-** ******************************************************************** */
+#pragma once
 
+#include <catsys.h>
 
-#ifndef CATIMPL_H
-#define CATIMPL_H
+struct __object {
+        MPI_Comm comm;
+        label_t  id;
+        char    *class;
+        char    *type;
+        char    *name;
+};
 
+#define OBJECT_DOMAIN "domain"
 
-/* ******************************************************************** */
-/* ************************** include files *************************** */
-/* ******************************************************************** */
+#define OBJECT_TABLE "table"
 
-#include "catsys.h"
+#define __CAT_NOT_IMPLEMENTED CatCheck(CAT_FALSE, MPI_COMM_WORLD, CAT_ERR_NOT_IMPLEMENTED, " ")
 
+#define __HEADER struct __object hdr
 
-/* ******************************************************************** */
-/* **************************** constants ***************************** */
-/* ******************************************************************** */
+#define __Header(opers) __HEADER; opers ops[1];
 
-#define CatHeaderCreate(h, comm, class) \
-    CatHeaderCreate_Private(CatNew(&(h)), \
-                            (CatObject *)&(h), \
-                            (comm), \
-                            (class))
+#define __HeaderCreate(comm, class, h) __ObjectCreate(CatNew(h), (comm), (class), (object_p *)(h))
 
-#define CatHeaderDestroy(h) CatHeaderDestroy_Private((CatObject *)h)
+#define __HeaderDestroy(h) ((CAT_RETURN_CODE)(__ObjectDestroy((object_p *)(h)) || CatFree(*h)))
 
-#define CatTryTypeMethod(obj, ...) \
-    do { \
-        if ((obj)->ops->CAT_FIRST_ARG((__VA_ARGS__, unused)) != NULL) \
-        { \
-            CatErrorCode ierr__; \
-            ierr__ = (*(obj)->ops->CAT_FIRST_ARG((__VA_ARGS__, unused))) \
-                (obj CAT_REST_ARG(__VA_ARGS__)); \
-            CatCall(ierr__); \
-        } \
-    } while (0)
+#define __HeaderCompareId(h, id, match) __ObjectCompareId((object_p)(h), (id), (match))
 
-#define CatUseTypeMethod(obj, ...)  \
-    do { \
-        if ((obj)->ops->CAT_FIRST_ARG((__VA_ARGS__, unused)) != NULL) \
-        { \
-            CatErrorCode ierr__; \
-            ierr__ = (*(obj)->ops->CAT_FIRST_ARG((__VA_ARGS__, unused))) \
-                (obj CAT_REST_ARG(__VA_ARGS__)); \
-            CatCall(ierr__); \
-        } \
-        else  \
-        { \
-            CatCall(CAT_ERR_OPSNOTSET);  \
-        } \
-    } while (0)
+#define __HeaderCompareClass(h, class, match) __ObjectCompareClass((object_p)(h), (class), (match))
 
+#define __HeaderCompareType(h, type, match) __ObjectCompareType((object_p)(h), (type), (match))
 
-#define CatSetTypeOps(obj, OP) (obj)->ops[0] = OP
+#define __HeaderSetOps(obj, opers) (obj)->ops[0] = opers
 
-#define CATHEADER(OP) \
-    _p_CatObject hdr; \
-    OP             ops[1]
+#define __HeaderSetClass(h, class) __ObjectSetClass((object_p)(h), (class))
 
-/* ******************************************************************** */
-/* ************************** public data ***************************** */
-/* ******************************************************************** */
+#define __HeaderSetType(type, h) __ObjectSetType((type), (object_p)(h))
 
-typedef struct _p_CatObject {
-    CatObjectId  id;
-    MPI_Comm     comm;
-    char        *class;
-    char        *type;
-} _p_CatObject;
+#define __HeaderGetType(h, type) __ObjectGetType((object_p)(h), (type))
 
+#define __HeaderGetComm(h, comm) __ObjectGetComm((object_p)(h), (comm));
 
-/* ******************************************************************** */
-/* *********************** public functions *************************** */
-/* ******************************************************************** */
+#define __HeaderTryTypeMethod(obj, ...)                                      \
+        {                                                               \
+                if ((obj)->ops->CAT_FIRST_ARG((__VA_ARGS__, unused))    \
+                    != NULL)                                            \
+                {                                                       \
+                        CAT_RETURN_CODE ierr__;                         \
+                        ierr__ =                                        \
+                                (*(obj)->ops->CAT_FIRST_ARG(            \
+                                        (__VA_ARGS__, unused)))         \
+                                (obj CAT_REST_ARG(__VA_ARGS__));        \
+                        CatFunction(ierr__);                            \
+                }  else {                                               \
+                        CatWarning(MPI_COMM_SELF,                       \
+                                   CAT_ERR_OPERATION_NOT_SET, " ");     \
+                }                                                       \
+        }
 
-extern CatErrorCode CatHeaderCreate_Private(CatErrorCode,
-                                            CatObject *,
-                                            MPI_Comm,
-                                            char *);
+#define __HeaderUseTypeMethod(obj, ...)                                      \
+        {                                                               \
+                if ((obj)->ops->CAT_FIRST_ARG((__VA_ARGS__, unused))    \
+                    != NULL)                                            \
+                {                                                       \
+                        CAT_RETURN_CODE ierr__;                         \
+                        ierr__ = (*(obj)->ops->CAT_FIRST_ARG(           \
+                                          (__VA_ARGS__, unused)))       \
+                                (obj CAT_REST_ARG(__VA_ARGS__));        \
+                        CatFunction(ierr__);                            \
+                }                                                       \
+                else                                                    \
+                {                                                       \
+                        CatCheck(CAT_FALSE, MPI_COMM_SELF,              \
+                                 CAT_ERR_OPERATION_NOT_SET,             \
+                                 " " );                                 \
+                }                                                       \
+        }
 
-extern CatErrorCode CatHeaderDestroy_Private(CatObject *h);
+#define CAT_FIRST_ARG_HELPER(N, ...) N
+#define CAT_FIRST_ARG(args) CAT_FIRST_ARG_HELPER args
+#define CAT_SELECT_16TH(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15, a16, ...) a16
+#define CAT_NUM(...) CAT_SELECT_16TH(__VA_ARGS__, TWOORMORE, TWOORMORE, TWOORMORE, TWOORMORE, TWOORMORE, TWOORMORE, TWOORMORE, TWOORMORE, TWOORMORE, TWOORMORE, TWOORMORE, TWOORMORE, TWOORMORE, TWOORMORE, ONE, throwaway)
+#define CAT_REST_HELPER_TWOORMORE(first, ...) , __VA_ARGS__
+#define CAT_REST_HELPER_ONE(first)
+#define CAT_REST_HELPER2(qty, ...) CAT_REST_HELPER_##qty(__VA_ARGS__)
+#define CAT_REST_HELPER(qty, ...) CAT_REST_HELPER2(qty, __VA_ARGS__)
+#define CAT_REST_ARG(...) CAT_REST_HELPER(CAT_NUM(__VA_ARGS__), __VA_ARGS__)
 
+CAT_EXTERN CAT_RETURN_CODE __ObjectCreate(CAT_RETURN_CODE, MPI_Comm, char *, object_p *);
+CAT_EXTERN CAT_RETURN_CODE __ObjectDestroy(object_p *);
+CAT_EXTERN CAT_RETURN_CODE __ObjectCompareId(object_p, label_t, bool_t *);
+CAT_EXTERN CAT_RETURN_CODE __ObjectCompareClass(object_p, char *, bool_t *);
+CAT_EXTERN CAT_RETURN_CODE __ObjectCompareType(object_p, char *, bool_t *);
+CAT_EXTERN CAT_RETURN_CODE __ObjectSetClass(object_p, char *);
+CAT_EXTERN CAT_RETURN_CODE __ObjectSetType(char *, object_p);
+CAT_EXTERN CAT_RETURN_CODE __ObjectGetType(object_p, char **);
+CAT_EXTERN CAT_RETURN_CODE __ObjectGetComm(object_p , MPI_Comm *);
 
-#endif
-
-/* ******************************************************************** */
+CAT_EXTERN void __CatErrorMeowf(MPI_Comm, const char *, const char *, const int , const char *, const CAT_RETURN_CODE, const char *, ...);
+CAT_EXTERN void __CatErrorVMeowf(MPI_Comm, const char *, const char *, const int , const char *, const CAT_RETURN_CODE, const char *, va_list);
+CAT_EXTERN void __MemoryPush(const char *, const char *, const int, const char *);
+CAT_EXTERN void __MemoryPop(const char *);
+CAT_EXTERN void __MemoryCheck(void);
+CAT_EXTERN void __FunctionStackPush(const char *, const char *, const int);
+CAT_EXTERN void __FunctionStackPop(void);
+CAT_EXTERN void __FunctionStackUpdateLine(const char *, const int);
+CAT_EXTERN void __FunctionStackCheck(void);
