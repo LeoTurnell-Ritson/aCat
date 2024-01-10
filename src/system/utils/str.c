@@ -2,12 +2,17 @@
 
 CAT_RETURN_CODE CatStrToArray(const char *s, char sp, int *argc, char ***args)
 {
+        size_t                         str_len;
         int     i, j, n, *lens = NULL, cnt = 0;
         bool_t                 flg = CAT_FALSE;
 
         CatFunctionBegin;
-        if (!s) n = 0;
-        else n = strlen(s);
+        if (!s) {
+                n = 0;
+        } else {
+                CatFunction(CatStrlen(s, &str_len));
+                n = (int)str_len;
+        }
         *argc = 0;
         *args = NULL;
         for (; n > 0; n--) {
