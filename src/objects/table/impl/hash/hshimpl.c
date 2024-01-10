@@ -28,7 +28,6 @@ static CAT_RETURN_CODE __TableHashNodeDestroy(struct __node *node)
 {
         label_t i;
 
-
         CatFunctionBegin;
         if (node) {
                 CatFunction(__TableHashNodeDestroy(node->next));
