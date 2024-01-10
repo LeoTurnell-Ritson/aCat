@@ -23,7 +23,7 @@ CAT_RETURN_CODE DomainSetFromOptions(domain_p dom)
                 CatFunction(TableLookup(options, "--dom_type", &key_argc, &key_argv, &found));
                 CatCheck(found && key_argc > 0, comm, CAT_ERR_BAD_INITIALIZATION, "--dom_type not set in options");
                 CatFunction(DomainSetType(key_argv[0], dom));
-                CatFunction(TableLookup(options, "--dom_ndims", &key_argc, &key_argv, &found));
+                CatFunction(TableLookup(options, "--dom_dim", &key_argc, &key_argv, &found));
                 if (found && key_argc > 0){
                         CatFunction(CatStrtolabel(key_argv[0], &ndims));
                         CatFunction(DomainSetDimensions(ndims, dom));
