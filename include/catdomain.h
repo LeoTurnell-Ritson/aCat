@@ -2,7 +2,7 @@
 
 #include <catsys.h>
 
- #define DOMAIN_BLOCK "block"
+#define DOMAIN_BLOCK "block"
 
 CAT_EXTERN CAT_RETURN_CODE DomainCreate(MPI_Comm, domain_p *);
 CAT_EXTERN CAT_RETURN_CODE DomainDestroy(domain_p *);
