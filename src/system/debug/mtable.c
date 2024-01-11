@@ -1,4 +1,3 @@
-#include <catstring.h>
 #include <cat/private/catimpl.h>
 #include <stdlib.h>
 
@@ -40,8 +39,10 @@ void __MemoryPush(const char *file, const char *func, const int line, const char
         node->func = func;
         node->line = line;
         __HashKey(key, &loc);
-          if (!(table.nodes[loc])) table.nodes[loc] = node;
-          else CatCheckNoReturn(CAT_FALSE, MPI_COMM_SELF, CAT_ERR_NOT_IMPLEMENTED, "Node key conflicts not implemented");
+        if (!(table.nodes[loc]))
+                table.nodes[loc] = node;
+        else
+                CatCheckNoReturn(CAT_FALSE, MPI_COMM_SELF, CAT_ERR_NOT_IMPLEMENTED, "Node key conflicts not implemented");
 }
 
 void __MemoryPop(const char *key)
