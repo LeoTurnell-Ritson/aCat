@@ -1,7 +1,20 @@
+#include <catstring.h>
 #include <cat/private/catimpl.h>
-#include <../src/system/debug/mtable.h>
-
 #include <stdlib.h>
+
+#define DEBUG_MEMORY_TABLE_SIZE 1213
+
+struct __mnode {
+        const char  *key;
+        const char  *func;
+        const char  *file;
+        int         line;
+        struct __mnode *next;
+};
+
+struct __mtable {
+        struct __mnode *nodes[DEBUG_MEMORY_TABLE_SIZE];
+};
 
 static struct __mtable table;
 
@@ -27,10 +40,8 @@ void __MemoryPush(const char *file, const char *func, const int line, const char
         node->func = func;
         node->line = line;
         __HashKey(key, &loc);
-        if (!(table.nodes[loc]))
-                table.nodes[loc] = node;
-        else
-                CatCheckNoReturn(CAT_FALSE, MPI_COMM_SELF, CAT_ERR_NOT_IMPLEMENTED, "Node key conflicts not implemented");
+          if (!(table.nodes[loc])) table.nodes[loc] = node;
+          else CatCheckNoReturn(CAT_FALSE, MPI_COMM_SELF, CAT_ERR_NOT_IMPLEMENTED, "Node key conflicts not implemented");
 }
 
 void __MemoryPop(const char *key)
