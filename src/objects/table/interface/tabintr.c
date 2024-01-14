@@ -2,7 +2,7 @@
 
 #define __CAT_USING_DEBUG_BAD_LOOKUP_WARNINGS 0
 
-CAT_RETURN_CODE TableTypeSet(char *type, table_p tab)
+CAT_RETURN_CODE TableSetType(char *type, table_p tab)
 {
         CatFunctionBegin;
         CatFunction(__HeaderSetType(type, tab));
@@ -10,7 +10,7 @@ CAT_RETURN_CODE TableTypeSet(char *type, table_p tab)
         CatFunctionReturn(CAT_SUCCESS);
 }
 
-CAT_RETURN_CODE TableSizeSet(label_t size, table_p tab)
+CAT_RETURN_CODE TableSetSize(label_t size, table_p tab)
 {
         MPI_Comm comm;
 
@@ -41,7 +41,6 @@ CAT_RETURN_CODE TableSearch(table_p tab, const char *key, bool_t *in)
                 if (!(*in)) CatWarning(comm, CAT_ERR_BAD_LOOKUP,"%s not found", key);
         }
 #endif
-
         CatFunctionReturn(CAT_SUCCESS);
 }
 
