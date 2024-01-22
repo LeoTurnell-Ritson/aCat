@@ -11,6 +11,26 @@
 #include <mpi.h>
 #include <omp.h>
 
+enum cat_return_code {
+        CAT_SUCCESS = 0,
+        CAT_ERR_BOOLEAN_MACRO_FAILURE,
+        CAT_ERR_ASSERTION,
+        CAT_ERR_NOT_IMPLEMENTED,
+        CAT_ERR_MEMORY,
+        CAT_ERR_SYSTEM_LIBARY,
+        CAT_ERR_INVALID_POINTER,
+        CAT_ERR_UNREACHABLE,
+        CAT_ERR_OPERATION_NOT_SET,
+        CAT_ERR_DEBUG_MEMORY_MALLOC,
+        CAT_ERR_DEBUG_MEMORY_FREE,
+        CAT_ERR_BAD_INITIALIZATION,
+        CAT_ERR_BAD_DIMENSIONS,
+        CAT_ERR_MEMORY_LEAK,
+        CAT_ERR_BAD_LOOKUP
+} cat_return_code;
+
+#define CAT_RETURN_CODE macro cat_return_code
+
 #define CAT_USING_DEBUG_FUNCTION_STACK 1
 
 #define CAT_USING_DEBUG_FUNCTION_PROFILING 1
@@ -29,7 +49,12 @@
 
 #define CatLikely(cond) __builtin_expect(!!(cond), 1)
 
-#define CatFunctionBegin CatFunctionPush(__FILE__, __FUNCTION__, __LINE__)
+#define CAT_COMM_WORLD MPI_COMM_WORLD
+
+#define CAT_COMM_SELF MPI_COMM_SELF
+
+#define CatFunctionBegin                                                \
+CatFunctionPush(__FILE__, __FUNCTION__, __LINE__)
 
 #define CatNew(r)                                                       \
         CatMallocAlign(CAT_TRUE, __FILE__,  __FUNCTION__, __LINE__,     \
@@ -78,7 +103,7 @@
                 CatFunctionUpdateLine(__FUNCTION__, __LINE__);          \
                 CAT_RETURN_CODE err = __VA_ARGS__;                      \
                 if (CatUnlikely(err))                                   \
-                        return CatError(MPI_COMM_SELF, __FILE__,        \
+                        return CatError(CAT_COMM_SELF, __FILE__,        \
                                         __FUNCTION__, __LINE__,         \
                                         "error", err, " ");             \
         }
@@ -103,7 +128,7 @@ CAT_EXTERN CAT_RETURN_CODE CatFinalize(void);
 CAT_EXTERN CAT_RETURN_CODE CatGetOptions(table_p *);
 CAT_EXTERN CAT_RETURN_CODE CatAddOptions(const char *);
 
-CAT_EXTERN CAT_RETURN_CODE CatMallocAlign(bool_t, const char *, const char *, const int, const size_t, void **);
+CAT_EXTERN CAT_RETURN_CODE CatMallocAlign(bool, const char *, const char *, const int, const size_t, void **);
 CAT_EXTERN CAT_RETURN_CODE CatFreeAlign(const char *, const char *, const int, void *);
 CAT_EXTERN CAT_RETURN_CODE CatError(MPI_Comm, const char *, const char *, const int, const char *, const CAT_RETURN_CODE, const char *, ...);
 
