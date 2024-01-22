@@ -1,7 +1,7 @@
 #include <catstring.h>
 #include <cat/private/tableimpl.h>
 
-CAT_RETURN_CODE __TableBuildInternal(table_p tab)
+CAT_RETURN_CODE __TableBuildInternal(TABLE *tab)
 {
         bool match;
 

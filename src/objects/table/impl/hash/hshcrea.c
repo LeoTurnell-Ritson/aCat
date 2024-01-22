@@ -1,6 +1,6 @@
 #include <../src/objects/table/impl/hash/hsh.h>
 
-CAT_EXTERN CAT_RETURN_CODE __TableHashCreate(table_p tab)
+CAT_EXTERN CAT_RETURN_CODE __TableHashCreate(TABLE *tab)
 {
         struct __hash *hsh;
         MPI_Comm       comm;

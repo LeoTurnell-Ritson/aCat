@@ -2,7 +2,7 @@
 #include <cattable.h>
 #include <../src/objects/domain/impl/block/blo.h>
 
-static CAT_INLINE CAT_RETURN_CODE __SetLabelFromOptions(table_p options, const char *key, int *arg)
+static CAT_INLINE CAT_RETURN_CODE __SetLabelFromOptions(TABLE *options, const char *key, int *arg)
 {
         int    key_argc;
         bool        found;
@@ -28,7 +28,7 @@ CAT_RETURN_CODE __DomainBlockDestroy(DOMAIN *dom)
 
 CAT_RETURN_CODE __DomainBlockSetFromOptions(DOMAIN *dom)
 {
-        table_p     options;
+        TABLE *    options;
         int    key_argc;
         bool        found;
         char     **key_argv;

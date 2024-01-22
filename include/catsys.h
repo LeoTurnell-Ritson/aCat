@@ -125,7 +125,7 @@ CatFunctionPush(__FILE__, __FUNCTION__, __LINE__)
 
 CAT_EXTERN CAT_RETURN_CODE CatInitialize(int *, char ***);
 CAT_EXTERN CAT_RETURN_CODE CatFinalize(void);
-CAT_EXTERN CAT_RETURN_CODE CatGetOptions(table_p *);
+CAT_EXTERN CAT_RETURN_CODE CatGetOptions(TABLE **);
 CAT_EXTERN CAT_RETURN_CODE CatAddOptions(const char *);
 
 CAT_EXTERN CAT_RETURN_CODE CatMallocAlign(bool, const char *, const char *, const int, const size_t, void **);

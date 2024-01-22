@@ -4,7 +4,7 @@
 
 CAT_RETURN_CODE DomainSetFromOptions(DOMAIN *dom)
 {
-        table_p    options;
+        TABLE *   options;
         int   key_argc;
         bool       found;
         char    **key_argv;

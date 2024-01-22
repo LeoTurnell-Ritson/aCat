@@ -2,7 +2,7 @@
 #include <catstring.h>
 #include <cat/private/catimpl.h>
 
-static table_p __CatDefaultOptions;
+static TABLE *__CatDefaultOptions;
 
 static CAT_RETURN_CODE __ParseArgs(int *argc, char ***argv)
 {
@@ -67,7 +67,7 @@ CAT_RETURN_CODE CatFinalize()
         CatFunctionReturn(CAT_SUCCESS);
 }
 
-CAT_RETURN_CODE CatGetOptions(table_p *args)
+CAT_RETURN_CODE CatGetOptions(TABLE **args)
 {
         CatFunctionBegin;
         *args = __CatDefaultOptions;

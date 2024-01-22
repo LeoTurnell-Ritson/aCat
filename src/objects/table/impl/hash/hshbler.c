@@ -9,7 +9,7 @@ static struct __tabops hashops = {
         .lookup  = __TableHashLookup
 };
 
-CAT_RETURN_CODE __TableBuildInternalHash(table_p tab)
+CAT_RETURN_CODE __TableBuildInternalHash(TABLE *tab)
 {
         CatFunctionBegin;
         __HeaderSetOps(tab, hashops);

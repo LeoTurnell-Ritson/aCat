@@ -12,7 +12,7 @@ static CAT_RETURN_CODE __TableHashPushToTail(struct __node **h, struct __node **
         CatFunctionReturn(CAT_SUCCESS);
 }
 
-static CAT_RETURN_CODE __TableHashHashKey(table_p tab, const char *key, int *loc)
+static CAT_RETURN_CODE __TableHashHashKey(TABLE *tab, const char *key, int *loc)
 {
         int hash;
         int c;
@@ -42,7 +42,7 @@ static CAT_RETURN_CODE __TableHashNodeDestroy(struct __node *node)
         CatFunctionReturn(CAT_SUCCESS);
 }
 
-CAT_RETURN_CODE __TableHashDestroy(table_p tab)
+CAT_RETURN_CODE __TableHashDestroy(TABLE *tab)
 {
         struct __hash *hsh;
         int          i;
@@ -57,7 +57,7 @@ CAT_RETURN_CODE __TableHashDestroy(table_p tab)
         CatFunctionReturn(CAT_SUCCESS);
 }
 
-CAT_RETURN_CODE __TableHashPop(table_p tab, char *key)
+CAT_RETURN_CODE __TableHashPop(TABLE *tab, char *key)
 {
         CatFunctionBegin;
         __CAT_NOT_IMPLEMENTED;
@@ -66,7 +66,7 @@ CAT_RETURN_CODE __TableHashPop(table_p tab, char *key)
         CatFunctionReturn(CAT_SUCCESS);
 }
 
-CAT_RETURN_CODE __TableHashPush(table_p tab, char *key, int argc, char **argv)
+CAT_RETURN_CODE __TableHashPush(TABLE *tab, char *key, int argc, char **argv)
 {
         struct __hash         *hsh;
         struct __node        *node;
@@ -93,7 +93,7 @@ CAT_RETURN_CODE __TableHashPush(table_p tab, char *key, int argc, char **argv)
         CatFunctionReturn(CAT_SUCCESS);
 }
 
-CAT_RETURN_CODE __TableHashSeach(table_p tab, const char *key, bool *in)
+CAT_RETURN_CODE __TableHashSeach(TABLE *tab, const char *key, bool *in)
 {
         struct __hash  *hsh;
         struct __node  *cur;
@@ -114,7 +114,7 @@ CAT_RETURN_CODE __TableHashSeach(table_p tab, const char *key, bool *in)
         CatFunctionReturn(CAT_SUCCESS);
 }
 
-CAT_RETURN_CODE __TableHashLookup(table_p tab, const char *key, int *argc, char ***argv, bool *in)
+CAT_RETURN_CODE __TableHashLookup(TABLE *tab, const char *key, int *argc, char ***argv, bool *in)
 {
         struct __hash  *hsh;
         struct __node  *cur;

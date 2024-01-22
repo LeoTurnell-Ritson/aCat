@@ -3,7 +3,7 @@
 
 int main(int argc, char **argv)
 {
-        table_p         tab;
+        TABLE *        tab;
         bool     fnd, mch;
         int    opt_argc;
         char     **opt_argv;

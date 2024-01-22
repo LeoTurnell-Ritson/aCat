@@ -1,6 +1,6 @@
 #include <cat/private/tableimpl.h>
 
-CAT_RETURN_CODE TableDestroy(table_p *tab)
+CAT_RETURN_CODE TableDestroy(TABLE **tab)
 {
         CatFunctionBegin;
         __HeaderUseTypeMethod(*tab, destroy);
