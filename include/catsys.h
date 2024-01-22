@@ -11,8 +11,6 @@
 #include <mpi.h>
 #include <omp.h>
 
-#define CAT_RETURN_CODE error_t
-
 #define CAT_USING_DEBUG_FUNCTION_STACK 1
 
 #define CAT_USING_DEBUG_FUNCTION_PROFILING 1
