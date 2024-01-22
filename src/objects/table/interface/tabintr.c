@@ -10,7 +10,7 @@ CAT_RETURN_CODE TableSetType(char *type, table_p tab)
         CatFunctionReturn(CAT_SUCCESS);
 }
 
-CAT_RETURN_CODE TableSetSize(label_t size, table_p tab)
+CAT_RETURN_CODE TableSetSize(int size, table_p tab)
 {
         MPI_Comm comm;
 
@@ -22,14 +22,14 @@ CAT_RETURN_CODE TableSetSize(label_t size, table_p tab)
         CatFunctionReturn(CAT_SUCCESS);
 }
 
-CAT_RETURN_CODE TablePush(char *key, label_t argc, char **argv, table_p tab)
+CAT_RETURN_CODE TablePush(char *key, int argc, char **argv, table_p tab)
 {
         CatFunctionBegin;
         __HeaderUseTypeMethod(tab, push, key, argc, argv);
         CatFunctionReturn(CAT_SUCCESS);
 }
 
-CAT_RETURN_CODE TableSearch(table_p tab, const char *key, bool_t *in)
+CAT_RETURN_CODE TableSearch(table_p tab, const char *key, bool *in)
 {
         CatFunctionBegin;
         __HeaderUseTypeMethod(tab, search, key, in);
@@ -44,7 +44,7 @@ CAT_RETURN_CODE TableSearch(table_p tab, const char *key, bool_t *in)
         CatFunctionReturn(CAT_SUCCESS);
 }
 
-CAT_RETURN_CODE TableLookup(table_p tab, const char *key, label_t *argc, char ***argv, bool_t *in)
+CAT_RETURN_CODE TableLookup(table_p tab, const char *key, int *argc, char ***argv, bool *in)
 {
 
         CatFunctionBegin;

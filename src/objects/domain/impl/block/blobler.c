@@ -6,7 +6,7 @@ static struct __domops blockops = {
         .setfromoptions = __DomainBlockSetFromOptions
 };
 
-CAT_RETURN_CODE __DomainBuildInternalBlock(domain_p dom)
+CAT_RETURN_CODE __DomainBuildInternalBlock(DOMAIN *dom)
 {
         CatFunctionBegin;
         __HeaderSetOps(dom, blockops);

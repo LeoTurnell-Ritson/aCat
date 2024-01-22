@@ -1,6 +1,6 @@
 #include <cat/private/domainimpl.h>
 
-CAT_RETURN_CODE DomainCreate(MPI_Comm comm, domain_p *dom)
+CAT_RETURN_CODE DomainCreate(MPI_Comm comm, DOMAIN **dom)
 {
         CatFunctionBegin;
         CatFunction(__HeaderCreate(comm, OBJECT_DOMAIN, dom));

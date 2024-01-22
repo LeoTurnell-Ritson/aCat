@@ -1,6 +1,6 @@
 #include <../src/objects/domain/impl/block/blo.h>
 
-CAT_EXTERN CAT_RETURN_CODE __DomainBlockCreate(domain_p dom)
+CAT_EXTERN CAT_RETURN_CODE __DomainBlockCreate(DOMAIN *dom)
 {
         struct __block *blo;
 

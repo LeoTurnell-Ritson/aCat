@@ -1,7 +1,7 @@
 #include <catstring.h>
 #include <cat/private/catimpl.h>
 
-static label_t nid;
+static int nid;
 
 CAT_RETURN_CODE __ObjectCreate(CAT_RETURN_CODE nerr, MPI_Comm comm, char *class, object_p *obj)
 {

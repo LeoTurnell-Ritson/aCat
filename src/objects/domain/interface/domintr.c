@@ -2,11 +2,11 @@
 #include <cattable.h>
 #include <cat/private/domainimpl.h>
 
-CAT_RETURN_CODE DomainSetFromOptions(domain_p dom)
+CAT_RETURN_CODE DomainSetFromOptions(DOMAIN *dom)
 {
         table_p    options;
-        label_t   key_argc;
-        bool_t       found;
+        int   key_argc;
+        bool       found;
         char    **key_argv;
         MPI_Comm      comm;
 
@@ -18,7 +18,7 @@ CAT_RETURN_CODE DomainSetFromOptions(domain_p dom)
                 __CAT_NOT_IMPLEMENTED;
                 __HeaderUseTypeMethod(dom, setfromoptions);
         } else {
-                label_t ndims;
+                int ndims;
 
                 CatFunction(TableLookup(options, "--dom_type", &key_argc, &key_argv, &found));
                 CatCheck(found && key_argc > 0, comm, CAT_ERR_BAD_INITIALIZATION, "--dom_type not set in options");
@@ -33,7 +33,7 @@ CAT_RETURN_CODE DomainSetFromOptions(domain_p dom)
         CatFunctionReturn(CAT_SUCCESS);
 }
 
-CAT_RETURN_CODE DomainSetType(char *type, domain_p dom)
+CAT_RETURN_CODE DomainSetType(char *type, DOMAIN *dom)
 {
         CatFunctionBegin;
         CatFunction(__HeaderSetType(type, dom));
@@ -41,14 +41,14 @@ CAT_RETURN_CODE DomainSetType(char *type, domain_p dom)
         CatFunctionReturn(CAT_SUCCESS);
 }
 
-CAT_RETURN_CODE DomainGetType(domain_p dom, char **type)
+CAT_RETURN_CODE DomainGetType(DOMAIN *dom, char **type)
 {
         CatFunctionBegin;
         CatFunction(__HeaderGetType(dom, type));
         CatFunctionReturn(CAT_SUCCESS);
 }
 
-CAT_RETURN_CODE DomainSetDimensions(label_t ndims, domain_p dom)
+CAT_RETURN_CODE DomainSetDimensions(int ndims, DOMAIN *dom)
 {
         MPI_Comm comm;
 

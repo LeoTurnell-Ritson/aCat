@@ -6,7 +6,7 @@ struct __fstack {
         const char  *func[DEBUG_FUNCTION_STACK_SIZE];
         const char  *file[DEBUG_FUNCTION_STACK_SIZE];
         int         line[DEBUG_FUNCTION_STACK_SIZE];
-        label_t     size;
+        int     size;
 };
 
 static struct __fstack stack;
@@ -38,7 +38,7 @@ void __FunctionStackUpdateLine(const char *func, const int line)
 
 void __FunctionStackCheck(void)
 {
-        label_t i;
+        int i;
 
         for (i = stack.size; i > 0; i--) {
                 (void)CatFMeowf(MPI_COMM_SELF, CAT_STDERR,

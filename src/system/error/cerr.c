@@ -1,7 +1,7 @@
 #include <cat/private/catimpl.h>
 #include <catstring.h>
 
-static bool_t errf = CAT_TRUE;
+static bool errf = CAT_TRUE;
 
 static char *errstr[] = {
         "Success",
@@ -24,7 +24,7 @@ static char *errstr[] = {
 
 CAT_RETURN_CODE CatError(MPI_Comm comm, const char *file, const char *func, const int line, const char *name, const CAT_RETURN_CODE err, const char *msg, ...)
 {
-        bool_t ismain;
+        bool ismain;
         va_list arg;
 
         if (errf) {
@@ -85,7 +85,7 @@ void __CatErrorMeowf(MPI_Comm comm, const char *file, const char *func, const in
 
 void __CatErrorVMeowf(MPI_Comm comm, const char *file, const char *func, const int line, const char *name, const CAT_RETURN_CODE err, const char *msg, va_list arg)
 {
-        bool_t nmsg;
+        bool nmsg;
         char *emsg;
 
         (void)CatStrncmp(msg, " ", 1, &nmsg);

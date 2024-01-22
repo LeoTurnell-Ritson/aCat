@@ -4,8 +4,8 @@
 int main(int argc, char **argv)
 {
         table_p         tab;
-        bool_t     fnd, mch;
-        label_t    opt_argc;
+        bool     fnd, mch;
+        int    opt_argc;
         char     **opt_argv;
 
         CatFunctionBegin;

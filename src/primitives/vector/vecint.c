@@ -23,7 +23,7 @@ CAT_EXTERN CAT_RETURN_CODE VectorDestroy(vector_p *vec)
         CatFunctionReturn(CAT_SUCCESS);
 }
 
-CAT_EXTERN CAT_RETURN_CODE VectorSizeSet(label_t size, vector_p vec)
+CAT_EXTERN CAT_RETURN_CODE VectorSizeSet(int size, vector_p vec)
 {
         CatFunctionBegin;
         CatCheck(vec->size == 0, MPI_COMM_WORLD, CAT_ERR_BAD_INITIALIZATION, "Can't reset seve of vector_p, try VectorSizeReset(...).\n");
@@ -33,7 +33,7 @@ CAT_EXTERN CAT_RETURN_CODE VectorSizeSet(label_t size, vector_p vec)
         CatFunctionReturn(CAT_SUCCESS);
 }
 
-CAT_EXTERN CAT_RETURN_CODE VectorSizeGet(vector_p vec, label_t *s)
+CAT_EXTERN CAT_RETURN_CODE VectorSizeGet(vector_p vec, int *s)
 {
         CatFunctionBegin;
         *s = vec->size;

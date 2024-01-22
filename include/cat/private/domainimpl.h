@@ -11,7 +11,7 @@ struct __domops {
 
 struct __domain {
         __Header(struct __domops);
-        label_t  ndims;
+        int  ndims;
         void     *data;
 };
 

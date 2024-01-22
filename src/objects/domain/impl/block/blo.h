@@ -1,8 +1,8 @@
 #include <cat/private/domainimpl.h>
 
 struct __block {
-        label_t  world_grid[3];
-        label_t  world_processors[3];
+        int  world_grid[3];
+        int  world_processors[3];
 };
 
 /* Public access */

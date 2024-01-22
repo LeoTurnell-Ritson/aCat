@@ -2,10 +2,10 @@
 #include <cattable.h>
 #include <../src/objects/domain/impl/block/blo.h>
 
-static CAT_INLINE CAT_RETURN_CODE __SetLabelFromOptions(table_p options, const char *key, label_t *arg)
+static CAT_INLINE CAT_RETURN_CODE __SetLabelFromOptions(table_p options, const char *key, int *arg)
 {
-        label_t    key_argc;
-        bool_t        found;
+        int    key_argc;
+        bool        found;
         char     **key_argv;
         MPI_Comm       comm;
 
@@ -19,18 +19,18 @@ static CAT_INLINE CAT_RETURN_CODE __SetLabelFromOptions(table_p options, const c
         CatFunctionReturn(CAT_SUCCESS);
 }
 
-CAT_RETURN_CODE __DomainBlockDestroy(domain_p dom)
+CAT_RETURN_CODE __DomainBlockDestroy(DOMAIN *dom)
 {
         CatFunctionBegin;
         CatFunction(CatFree(dom->data));
         CatFunctionReturn(CAT_SUCCESS);
 }
 
-CAT_RETURN_CODE __DomainBlockSetFromOptions(domain_p dom)
+CAT_RETURN_CODE __DomainBlockSetFromOptions(DOMAIN *dom)
 {
         table_p     options;
-        label_t    key_argc;
-        bool_t        found;
+        int    key_argc;
+        bool        found;
         char     **key_argv;
         MPI_Comm       comm;
         struct __block *blo;

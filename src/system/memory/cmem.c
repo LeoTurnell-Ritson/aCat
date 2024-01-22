@@ -1,7 +1,7 @@
 #include <cat/private/catimpl.h>
 #include <stdlib.h>
 
-CAT_RETURN_CODE CatMallocAlign(bool_t clear, const char *file, const char *func, const int line, const size_t mem, void **result)
+CAT_RETURN_CODE CatMallocAlign(bool clear, const char *file, const char *func, const int line, const size_t mem, void **result)
 {
         #if CAT_USING_DEBUG_MEMORY_TABLE
         char buff[64];

@@ -7,14 +7,14 @@ struct __tabops {
         CAT_RETURN_CODE (*create)(table_p);
         CAT_RETURN_CODE (*destroy)(table_p);
         CAT_RETURN_CODE (*pop)(table_p, char *);
-        CAT_RETURN_CODE (*push)(table_p, char *, label_t, char **);
-        CAT_RETURN_CODE (*search)(table_p, const char *, bool_t *);
-        CAT_RETURN_CODE (*lookup)(table_p, const char *, label_t *, char ***, bool_t *);
+        CAT_RETURN_CODE (*push)(table_p, char *, int, char **);
+        CAT_RETURN_CODE (*search)(table_p, const char *, bool *);
+        CAT_RETURN_CODE (*lookup)(table_p, const char *, int *, char ***, bool *);
 };
 
 struct __table {
         __Header(struct __tabops);
-        label_t size;
+        int size;
         void *data;
 };
 

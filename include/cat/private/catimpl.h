@@ -4,7 +4,7 @@
 
 struct __object {
         MPI_Comm comm;
-        label_t  id;
+        int  id;
         char    *class;
         char    *type;
         char    *name;
@@ -108,9 +108,9 @@ struct __object {
 
 CAT_EXTERN CAT_RETURN_CODE __ObjectCreate(CAT_RETURN_CODE, MPI_Comm, char *, object_p *);
 CAT_EXTERN CAT_RETURN_CODE __ObjectDestroy(object_p *);
-CAT_EXTERN CAT_RETURN_CODE __ObjectCompareId(object_p, label_t, bool_t *);
-CAT_EXTERN CAT_RETURN_CODE __ObjectCompareClass(object_p, char *, bool_t *);
-CAT_EXTERN CAT_RETURN_CODE __ObjectCompareType(object_p, char *, bool_t *);
+CAT_EXTERN CAT_RETURN_CODE __ObjectCompareId(object_p, int, bool *);
+CAT_EXTERN CAT_RETURN_CODE __ObjectCompareClass(object_p, char *, bool *);
+CAT_EXTERN CAT_RETURN_CODE __ObjectCompareType(object_p, char *, bool *);
 CAT_EXTERN CAT_RETURN_CODE __ObjectSetClass(object_p, char *);
 CAT_EXTERN CAT_RETURN_CODE __ObjectSetType(char *, object_p);
 CAT_EXTERN CAT_RETURN_CODE __ObjectGetType(object_p, char **);

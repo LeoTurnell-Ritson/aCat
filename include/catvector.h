@@ -4,8 +4,8 @@
 
 CAT_EXTERN CAT_RETURN_CODE VectorCreate(vector_p *);
 CAT_EXTERN CAT_RETURN_CODE VectorDestroy(vector_p *);
-CAT_EXTERN CAT_RETURN_CODE VectorSizeSet(label_t, vector_p);
-CAT_EXTERN CAT_RETURN_CODE VectorSizeGet(vector_p, label_t *);
+CAT_EXTERN CAT_RETURN_CODE VectorSizeSet(int, vector_p);
+CAT_EXTERN CAT_RETURN_CODE VectorSizeGet(vector_p, int *);
 
 /* Scalar result operations */
 CAT_EXTERN CAT_RETURN_CODE VectorMax(vector_p, scalar_t *); /* max(y) = alpha */

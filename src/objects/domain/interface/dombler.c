@@ -1,9 +1,9 @@
 #include <catstring.h>
 #include <cat/private/domainimpl.h>
 
-CAT_RETURN_CODE __DomainBuildInternal(domain_p dom)
+CAT_RETURN_CODE __DomainBuildInternal(DOMAIN *dom)
 {
-        bool_t    match;
+        bool    match;
         char      *type;
         MPI_Comm   comm;
 

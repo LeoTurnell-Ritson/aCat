@@ -3,7 +3,7 @@
 
 CAT_RETURN_CODE __TableBuildInternal(table_p tab)
 {
-        bool_t match;
+        bool match;
 
         CatFunctionBegin;
         if (!(((object_p)tab)->type)) return CAT_ERR_BAD_INITIALIZATION;

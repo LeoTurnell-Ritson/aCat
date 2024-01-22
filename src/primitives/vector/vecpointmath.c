@@ -17,7 +17,7 @@ CAT_RETURN_CODE VectorPointwiseUnity(vector_p v)
 
 CAT_RETURN_CODE VectorPointwiseSet(scalar_t alpha, vector_p v)
 {
-        label_t i;
+        int i;
 
         CatFunctionBegin;
         if (v->size == 0) {
@@ -32,8 +32,8 @@ CAT_RETURN_CODE VectorPointwiseSet(scalar_t alpha, vector_p v)
 
 CAT_RETURN_CODE VectorPointwiseCpy(vector_p a, vector_p b)
 {
-        label_t i;
-        bool_t same;
+        int i;
+        bool same;
 
         CatFunctionBegin;
         CatFunction(__VectorSizeCompare(a, b, &same));
@@ -50,8 +50,8 @@ CAT_RETURN_CODE VectorPointwiseCpy(vector_p a, vector_p b)
 
 CAT_RETURN_CODE VectorPointwiseAbs(vector_p x, vector_p y)
 {
-        label_t i;
-        bool_t same;
+        int i;
+        bool same;
 
         CatFunctionBegin;
         CatFunction(__VectorSizeCompare(x, y, &same));
@@ -68,8 +68,8 @@ CAT_RETURN_CODE VectorPointwiseAbs(vector_p x, vector_p y)
 
 CAT_EXTERN CAT_RETURN_CODE VectorPointwiseMult(vector_p x, vector_p y, vector_p w)
 {
-        label_t i;
-        bool_t s1, s2;
+        int i;
+        bool s1, s2;
 
         CatFunctionBegin;
         CatFunction(__VectorSizeCompare(x, y, &s1));
@@ -87,8 +87,8 @@ CAT_EXTERN CAT_RETURN_CODE VectorPointwiseMult(vector_p x, vector_p y, vector_p 
 
 CAT_EXTERN CAT_RETURN_CODE VectorPointwiseDivide(vector_p x, vector_p y, vector_p w)
 {
-        label_t i;
-        bool_t s1, s2;
+        int i;
+        bool s1, s2;
 
         CatFunctionBegin;
         CatFunction(__VectorSizeCompare(x, y, &s1));
@@ -106,8 +106,8 @@ CAT_EXTERN CAT_RETURN_CODE VectorPointwiseDivide(vector_p x, vector_p y, vector_
 
 CAT_EXTERN CAT_RETURN_CODE VectorPointwiseAdd(vector_p x, vector_p y, vector_p w)
 {
-        label_t i;
-        bool_t s1, s2;
+        int i;
+        bool s1, s2;
 
         CatFunctionBegin;
         CatFunction(__VectorSizeCompare(x, y, &s1));

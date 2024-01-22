@@ -3,7 +3,7 @@
 
 CAT_RETURN_CODE VectorMax(vector_p x, scalar_t *res)
 {
-        label_t i;
+        int i;
         scalar_t max;
 
         CatFunctionBegin;
@@ -20,7 +20,7 @@ CAT_RETURN_CODE VectorMax(vector_p x, scalar_t *res)
 
 CAT_RETURN_CODE VectorMin(vector_p x, scalar_t *res)
 {
-        label_t i;
+        int i;
         scalar_t min;
 
         CatFunctionBegin;
@@ -38,7 +38,7 @@ CAT_RETURN_CODE VectorMin(vector_p x, scalar_t *res)
 CAT_RETURN_CODE VectorSum(vector_p v, scalar_t *res)
 {
         scalar_t sum;
-        label_t i;
+        int i;
 
         CatFunctionBegin;
         CatCheck(v->size > 0, MPI_COMM_SELF, CAT_ERR_BAD_DIMENSIONS, "Can't find sum of a vector with length zero.\n ");

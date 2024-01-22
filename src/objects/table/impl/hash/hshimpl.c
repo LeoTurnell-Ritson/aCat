@@ -12,9 +12,9 @@ static CAT_RETURN_CODE __TableHashPushToTail(struct __node **h, struct __node **
         CatFunctionReturn(CAT_SUCCESS);
 }
 
-static CAT_RETURN_CODE __TableHashHashKey(table_p tab, const char *key, label_t *loc)
+static CAT_RETURN_CODE __TableHashHashKey(table_p tab, const char *key, int *loc)
 {
-        label_t hash;
+        int hash;
         int c;
 
         CatFunctionBegin;
@@ -26,7 +26,7 @@ static CAT_RETURN_CODE __TableHashHashKey(table_p tab, const char *key, label_t 
 
 static CAT_RETURN_CODE __TableHashNodeDestroy(struct __node *node)
 {
-        label_t i;
+        int i;
 
         CatFunctionBegin;
         if (node) {
@@ -45,7 +45,7 @@ static CAT_RETURN_CODE __TableHashNodeDestroy(struct __node *node)
 CAT_RETURN_CODE __TableHashDestroy(table_p tab)
 {
         struct __hash *hsh;
-        label_t          i;
+        int          i;
 
         CatFunctionBegin;
         hsh = (struct __hash *)tab->data;
@@ -66,12 +66,12 @@ CAT_RETURN_CODE __TableHashPop(table_p tab, char *key)
         CatFunctionReturn(CAT_SUCCESS);
 }
 
-CAT_RETURN_CODE __TableHashPush(table_p tab, char *key, label_t argc, char **argv)
+CAT_RETURN_CODE __TableHashPush(table_p tab, char *key, int argc, char **argv)
 {
         struct __hash         *hsh;
         struct __node        *node;
         size_t                 len;
-        label_t             i, loc;
+        int             i, loc;
 
         CatFunctionBegin;
         hsh = (struct __hash *)tab->data;
@@ -93,11 +93,11 @@ CAT_RETURN_CODE __TableHashPush(table_p tab, char *key, label_t argc, char **arg
         CatFunctionReturn(CAT_SUCCESS);
 }
 
-CAT_RETURN_CODE __TableHashSeach(table_p tab, const char *key, bool_t *in)
+CAT_RETURN_CODE __TableHashSeach(table_p tab, const char *key, bool *in)
 {
         struct __hash  *hsh;
         struct __node  *cur;
-        label_t         loc;
+        int         loc;
         char       *arg_key;
 
         CatFunctionBegin;
@@ -114,11 +114,11 @@ CAT_RETURN_CODE __TableHashSeach(table_p tab, const char *key, bool_t *in)
         CatFunctionReturn(CAT_SUCCESS);
 }
 
-CAT_RETURN_CODE __TableHashLookup(table_p tab, const char *key, label_t *argc, char ***argv, bool_t *in)
+CAT_RETURN_CODE __TableHashLookup(table_p tab, const char *key, int *argc, char ***argv, bool *in)
 {
         struct __hash  *hsh;
         struct __node  *cur;
-        label_t         loc;
+        int         loc;
         char       *arg_key;
 
         CatFunctionBegin;

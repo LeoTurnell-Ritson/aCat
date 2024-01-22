@@ -4,12 +4,12 @@
 #include <cat/private/catimpl.h>
 
 struct __vector {
-        label_t size;
+        int size;
         scalar_t *arr;
 };
 
 
-static CAT_INLINE CAT_RETURN_CODE __VectorSizeCompare(vector_p a, vector_p b, bool_t *t)
+static CAT_INLINE CAT_RETURN_CODE __VectorSizeCompare(vector_p a, vector_p b, bool *t)
 {
         CatFunctionBegin;
         *t = CAT_FALSE;

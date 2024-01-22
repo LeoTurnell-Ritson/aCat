@@ -19,13 +19,13 @@ struct __mtable {
 
 static struct __mtable table;
 
-static label_t __free_count = 0;
+static int __free_count = 0;
 
-static label_t __malloc_count = 0;
+static int __malloc_count = 0;
 
-static void __HashKey(const char *key, label_t *loc)
+static void __HashKey(const char *key, int *loc)
 {
-        label_t   hash;
+        int   hash;
         int       c;
 
         hash = 5381;
@@ -46,7 +46,7 @@ static void __NodeCpyItem(const char *item, char **elem)
 void __MemoryPush(const char *file, const char *func, const int line, const char *ptr)
 {
 
-        label_t           loc;
+        int           loc;
         struct __mnode   *new;
 
         new = (struct __mnode *)malloc(sizeof (struct __mnode));
@@ -75,7 +75,7 @@ void __MemoryPush(const char *file, const char *func, const int line, const char
 
 void __MemoryPop(const char *ptr)
 {
-        label_t           loc;
+        int           loc;
         struct __mnode   *cur, *nxt, *prv;
 
         __HashKey(ptr, &loc);
@@ -111,7 +111,7 @@ void __MemoryPop(const char *ptr)
 
 void __MemoryCheck(void)
 {
-        label_t           i;
+        int           i;
         struct __mnode   *cur;
 
         for (i = 0; i < DEBUG_MEMORY_TABLE_SIZE; i++) {

@@ -6,19 +6,19 @@ static table_p __CatDefaultOptions;
 
 static CAT_RETURN_CODE __ParseArgs(int *argc, char ***argv)
 {
-        label_t    i, j, k;
-        label_t   sub_argc;
-        bool_t       match;
+        int    i, j, k;
+        int   sub_argc;
+        bool       match;
         size_t         len;
         char          *key;
         char    **sub_argv;
 
         CatFunctionBegin;
-        for (i = 0; i < (label_t)(*argc); i++) {
+        for (i = 0; i < (int)(*argc); i++) {
                 key = (*argv)[i];
                 CatFunction(CatStrncmp(key, "--", 2, &match));
                 if (match) {
-                        for (j = i + 1; j < (label_t)(*argc); j++) {
+                        for (j = i + 1; j < (int)(*argc); j++) {
                                 key = (*argv)[j];
                                 CatFunction(CatStrncmp(key, "--", 2, &match));
                                 if (match) {

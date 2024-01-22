@@ -4,7 +4,7 @@ CAT_RETURN_CODE CatStrToArray(const char *s, char sp, int *argc, char ***args)
 {
         size_t                         str_len;
         int     i, j, n, *lens = NULL, cnt = 0;
-        bool_t                 flg = CAT_FALSE;
+        bool                 flg = CAT_FALSE;
 
         CatFunctionBegin;
         if (!s) {
@@ -76,7 +76,7 @@ CAT_RETURN_CODE CatStrToArray(const char *s, char sp, int *argc, char ***args)
 
 CAT_RETURN_CODE CatStrArrayDestroy(char ***arr)
 {
-        label_t n = 0;
+        int n = 0;
 
         CatFunctionBegin;
         if (!*arr) CatFunctionReturn(CAT_SUCCESS);
