@@ -10,43 +10,40 @@ struct __object {
         char    *name;
 };
 
-#define OBJECT_DOMAIN "domain"
 
-#define OBJECT_TABLE "table"
+#define CAT_NOT_IMPLEMENTED CatCheck(CAT_FALSE, MPI_COMM_WORLD, CAT_ERR_NOT_IMPLEMENTED, " ")
 
-#define __CAT_NOT_IMPLEMENTED CatCheck(CAT_FALSE, MPI_COMM_WORLD, CAT_ERR_NOT_IMPLEMENTED, " ")
+#define CAT_HEADER struct __object hdr
 
-#define __HEADER struct __object hdr
+#define Header(opers) CAT_HEADER; opers ops[1];
 
-#define __Header(opers) __HEADER; opers ops[1];
+#define HeaderSetOps(obj, opers) (obj)->ops[0] = opers
 
-#define __HeaderSetOps(obj, opers) (obj)->ops[0] = opers
+#define HeaderSetClass(h, class) ObjectSetClass((object_p)(h), (class))
 
-#define __HeaderSetClass(h, class) __ObjectSetClass((object_p)(h), (class))
+#define HeaderSetType(type, h) ObjectSetType((type), (object_p)(h))
 
-#define __HeaderSetType(type, h) __ObjectSetType((type), (object_p)(h))
+#define HeaderGetType(h, type) ObjectGetType((object_p)(h), (type))
 
-#define __HeaderGetType(h, type) __ObjectGetType((object_p)(h), (type))
+#define HeaderGetComm(h, comm) ObjectGetComm((object_p)(h), (comm));
 
-#define __HeaderGetComm(h, comm) __ObjectGetComm((object_p)(h), (comm));
+#define HeaderCreate(comm, class, h)                                  \
+        ObjectCreate(CatNew(h), (comm), (class), (object_p *)(h))
 
-#define __HeaderCreate(comm, class, h)                                  \
-        __ObjectCreate(CatNew(h), (comm), (class), (object_p *)(h))
-
-#define __HeaderDestroy(h)                                              \
-        ((CAT_RETURN_CODE)(__ObjectDestroy((object_p *)(h))             \
+#define HeaderDestroy(h)                                              \
+        ((CAT_RETURN_CODE)(ObjectDestroy((object_p *)(h))             \
                            || CatFree(*h)))
 
-#define __HeaderCompareId(h, id, match)                                 \
-        __ObjectCompareId((object_p)(h), (id), (match))
+#define HeaderCompareId(h, id, match)                                 \
+        ObjectCompareId((object_p)(h), (id), (match))
 
-#define __HeaderCompareClass(h, class, match)                           \
-        __ObjectCompareClass((object_p)(h), (class), (match))
+#define HeaderCompareClass(h, class, match)                           \
+        ObjectCompareClass((object_p)(h), (class), (match))
 
-#define __HeaderCompareType(h, type, match)                             \
-        __ObjectCompareType((object_p)(h), (type), (match))
+#define HeaderCompareType(h, type, match)                             \
+        ObjectCompareType((object_p)(h), (type), (match))
 
-#define __HeaderTryTypeMethod(obj, ...)                                 \
+#define HeaderTryTypeMethod(obj, ...)  ``                               \
         {                                                               \
                 if ((obj)->ops->CAT_FIRST_ARG((__VA_ARGS__, unused))    \
                     != NULL)                                            \
@@ -63,7 +60,7 @@ struct __object {
                 }                                                       \
         }
 
-#define __HeaderUseTypeMethod(obj, ...)                                 \
+#define HeaderUseTypeMethod(obj, ...)``                                 \
         {                                                               \
                 if ((obj)->ops->CAT_FIRST_ARG((__VA_ARGS__, unused))    \
                     != NULL)                                            \
@@ -106,22 +103,22 @@ struct __object {
 
 #define CAT_REST_ARG(...) CAT_REST_HELPER(CAT_NUM(__VA_ARGS__), __VA_ARGS__)
 
-CAT_EXTERN CAT_RETURN_CODE __ObjectCreate(CAT_RETURN_CODE, MPI_Comm, char *, object_p *);
-CAT_EXTERN CAT_RETURN_CODE __ObjectDestroy(object_p *);
-CAT_EXTERN CAT_RETURN_CODE __ObjectCompareId(object_p, int, bool *);
-CAT_EXTERN CAT_RETURN_CODE __ObjectCompareClass(object_p, char *, bool *);
-CAT_EXTERN CAT_RETURN_CODE __ObjectCompareType(object_p, char *, bool *);
-CAT_EXTERN CAT_RETURN_CODE __ObjectSetClass(object_p, char *);
-CAT_EXTERN CAT_RETURN_CODE __ObjectSetType(char *, object_p);
-CAT_EXTERN CAT_RETURN_CODE __ObjectGetType(object_p, char **);
-CAT_EXTERN CAT_RETURN_CODE __ObjectGetComm(object_p , MPI_Comm *);
+CAT_EXTERN CAT_RETURN_CODE ObjectCreate(CAT_RETURN_CODE, MPI_Comm, char *, object_p *);
+CAT_EXTERN CAT_RETURN_CODE ObjectDestroy(object_p *);
+CAT_EXTERN CAT_RETURN_CODE ObjectCompareId(object_p, int, bool *);
+CAT_EXTERN CAT_RETURN_CODE ObjectCompareClass(object_p, char *, bool *);
+CAT_EXTERN CAT_RETURN_CODE ObjectCompareType(object_p, char *, bool *);
+CAT_EXTERN CAT_RETURN_CODE ObjectSetClass(object_p, char *);
+CAT_EXTERN CAT_RETURN_CODE ObjectSetType(char *, object_p);
+CAT_EXTERN CAT_RETURN_CODE ObjectGetType(object_p, char **);
+CAT_EXTERN CAT_RETURN_CODE ObjectGetComm(object_p , MPI_Comm *);
 
-CAT_EXTERN void __CatErrorMeowf(MPI_Comm, const char *, const char *, const int , const char *, const CAT_RETURN_CODE, const char *, ...);
-CAT_EXTERN void __CatErrorVMeowf(MPI_Comm, const char *, const char *, const int , const char *, const CAT_RETURN_CODE, const char *, va_list);
-CAT_EXTERN void __MemoryPush(const char *, const char *, const int, const char *);
-CAT_EXTERN void __MemoryPop(const char *);
-CAT_EXTERN void __MemoryCheck(void);
-CAT_EXTERN void __FunctionStackPush(const char *, const char *, const int);
-CAT_EXTERN void __FunctionStackPop(void);
-CAT_EXTERN void __FunctionStackUpdateLine(const char *, const int);
-CAT_EXTERN void __FunctionStackCheck(void);
+CAT_EXTERN void CatErrorMeowf(MPI_Comm, const char *, const char *, const int , const char *, const CAT_RETURN_CODE, const char *, ...);
+CAT_EXTERN void CatErrorVMeowf(MPI_Comm, const char *, const char *, const int , const char *, const CAT_RETURN_CODE, const char *, va_list);
+CAT_EXTERN void MemoryPush(const char *, const char *, const int, const char *);
+CAT_EXTERN void MemoryPop(const char *);
+CAT_EXTERN void MemoryCheck(void);
+CAT_EXTERN void FunctionStackPush(const char *, const char *, const int);
+CAT_EXTERN void FunctionStackPop(void);
+CAT_EXTERN void FunctionStackUpdateLine(const char *, const int);
+CAT_EXTERN void FunctionStackCheck(void);

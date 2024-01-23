@@ -41,7 +41,7 @@ CAT_RETURN_CODE __DomainBlockSetFromOptions(DOMAIN *dom)
         blo = (struct __block *)dom->data;
         CatFunction(TableLookup(options, "--dom_file", &key_argc, &key_argv, &found));
         if (found) {
-                __CAT_NOT_IMPLEMENTED;
+                CAT_NOT_IMPLEMENTED;
         } else {
                 CatCheck(dom->ndims > 0, comm, CAT_ERR_BAD_INITIALIZATION, "--dom_dim (n) required");
                 if (dom->ndims > 0) {

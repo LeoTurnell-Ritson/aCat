@@ -1,11 +1,7 @@
 #pragma once
 
-typedef struct __object *object_p;
+#define CAT_OBJECT struct __object;
 
-typedef struct __domain *domain_p;
+#define DOMAIN struct __domain;
 
-typedef struct __table *table_p;
-
-typedef struct __matrix *matrix_p;
-
-typedef struct __field *field_p;
+#define TABLE struct __table;

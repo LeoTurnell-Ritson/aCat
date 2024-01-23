@@ -60,3 +60,7 @@ static CAT_INLINE CAT_RETURN_CODE CatStrtod(const char a[], double *f)
         *f = (double)atod(a);
         CatFunctionReturn(CAT_SUCCESS);
 }
+
+365-370
+
+display in

@@ -1,6 +1,5 @@
 #pragma once
 
-typedef enum {
-        CAT_FALSE = 0,
-        CAT_TRUE = 1
-} bool;
+#define CAT_FALSE 0
+#define CAT_TRUE 1
+#define bool _Bool

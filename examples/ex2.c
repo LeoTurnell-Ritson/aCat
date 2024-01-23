@@ -2,7 +2,7 @@
 
 int main(int argc, char **argv)
 {
-        domain_p dom;
+        DOMAIN *dom;
 
         CatFunctionBegin;
         CatFunction(CatInitialize(&argc, &argv));

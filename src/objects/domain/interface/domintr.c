@@ -15,7 +15,7 @@ CAT_RETURN_CODE DomainSetFromOptions(DOMAIN *dom)
         CatFunction(CatGetOptions(&options));
         CatFunction(TableLookup(options, "--dom_file", &key_argc, &key_argv, &found));
         if (found) {
-                __CAT_NOT_IMPLEMENTED;
+                CAT_NOT_IMPLEMENTED;
                 __HeaderUseTypeMethod(dom, setfromoptions);
         } else {
                 int ndims;

@@ -60,7 +60,7 @@ CAT_RETURN_CODE __TableHashDestroy(TABLE *tab)
 CAT_RETURN_CODE __TableHashPop(TABLE *tab, char *key)
 {
         CatFunctionBegin;
-        __CAT_NOT_IMPLEMENTED;
+        CAT_NOT_IMPLEMENTED;
         (void)tab;
         (void)key;
         CatFunctionReturn(CAT_SUCCESS);
